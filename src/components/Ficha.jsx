@@ -6,7 +6,7 @@ export default function Ficha({ id, urlImagen, titulo, description, price }) {
   return (
     <Link
       to={`/producto/${id}`}
-      className="relative group block rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 aspect-[4/5] w-full max-w-[240px]"
+      className="relative group block rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 aspect-4/5 w-full max-w-60"
     >
       {/* Imagen */}
       <img

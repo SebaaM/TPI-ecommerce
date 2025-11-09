@@ -36,7 +36,7 @@ export const ProductList = ({ apiUrl, apiToken, searchInput }) => {
   return (
     <div
   id="productosHome"
-  className="mt-8 -mx-[1px] grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 w-full justify-items-center"
+  className="mt-8 -mx-px grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 w-full justify-items-center"
 >
 
       {productosFiltrados.length > 0 ? (
