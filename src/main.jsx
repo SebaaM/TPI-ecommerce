@@ -5,10 +5,10 @@ import "./styles/index.css";
 import App from "./routes/appRoutes.jsx";
 
 // strict mode puede ejecutar dos veces algunos metodos para detectar errores en el codigo.
-ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
+createRoot(document.getElementById("root")).render(
+  <StrictMode>
     <BrowserRouter>
       <App />
     </BrowserRouter>
-  </React.StrictMode>
+  </StrictMode>
 );
