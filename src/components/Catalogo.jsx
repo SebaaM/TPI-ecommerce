@@ -1,18 +1,20 @@
 import { useState } from "react";
 import { ProductList } from "./ProductList";
+import FiltroPorCategoria from "../pages/FiltroPorCategoria";
 import Navbar from "./Navbar";
 export const Catalogo = ({ apiUrl, apiToken }) => {
   const [searchInput, setSearchInput] = useState("");
 
+  // dejar un filtro por defecto en "todas las categorias", se estan duplicando datos.
   return (
     <div className="p-4 bg-gray-800 flex flex-col w-full min-h-screen overflow-x-hidden items-center my-8">
       <Navbar value={searchInput} onChange={setSearchInput} />
-      <FiltroCategoria
+      <FiltroPorCategoria
         apiUrl={"http://161.35.104.211:8000"}
         apiToken={apiToken}
-        category={categoria}
         searchInput={searchInput}
       />
+
       <ProductList
         apiUrl={apiUrl}
         apiToken={apiToken}
