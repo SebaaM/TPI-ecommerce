@@ -1,12 +1,14 @@
 import { Routes, Route } from "react-router-dom";
 import Home from "../pages/Home";
 import Productos from "../pages/Productos";
+import FiltroPorCategoria from "../pages/FiltroPorCategoria";
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/productos" element={<Productos/>}/>
+      <Route path="/productos" element={<Productos />} />
+      <Route path="/categoria/:id" element={<FiltroPorCategoria />} />
       {/*<Route path="*" element={<NotFound />} />*/}
     </Routes>
   );
