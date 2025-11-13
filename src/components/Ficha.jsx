@@ -1,8 +1,24 @@
 import { Link } from "react-router-dom";
 import Boton from "./Boton";
 import BotonMovil from "./BotonMovil";
+import { CartContext } from "../context/cart";
+import { useContext, useEffect, useState } from 'react'
+
+
+
+
 
 export default function Ficha({ id, urlImagen, titulo, description, price }) {
+  const { cartItems, addToCart } = useContext(CartContext)
+
+   const product = {
+    id,
+    titulo,
+    description,
+    price,
+    urlImagen,
+  };
+  
   return (
     <Link
       to={`/producto/${id}`}
@@ -25,10 +41,10 @@ export default function Ficha({ id, urlImagen, titulo, description, price }) {
       <div className="absolute bottom-0 left-0 right-0 bg-black/70 flex items-center justify-between px-3 py-2">
         <span className="text-lg font-bold text-green-400">${price}</span>
         <div className="hidden md:block">
-          <Boton textoBoton="Añadir" />
+          <Boton textoBoton="Añadir" funcionClick={() =>addToCart(product)}/>
         </div>
         <div className="block md:hidden">
-          <BotonMovil />
+          <BotonMovil funcionClick={() =>addToCart(product)}/>
         </div>
       </div>
     </Link>

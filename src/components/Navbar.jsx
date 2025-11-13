@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Link } from "react-router-dom";
 import {
   Disclosure,
@@ -13,6 +14,7 @@ import {
   ShoppingCartIcon,
 } from "@heroicons/react/24/outline";
 import { SearchBar } from "./SearchBar";
+import CartModal from "./cartModal";
 
 /*cambiar por links definitivos a cada seccion cuando esten creadas las paginas */
 const navigation = [
@@ -27,7 +29,11 @@ function classNames(...classes) {
 }
 
 export default function Navbar({ value, onChange }) {
+  const [open, setOpen] = useState(false)
+
+
   return (
+    <>
     <Disclosure
       as="nav"
       className="fixed top-0 left-0 right-0 z-50 bg-[#1b1d1f] text-white shadow-md border-b border-gray-700 overflow-visible"
@@ -151,5 +157,9 @@ export default function Navbar({ value, onChange }) {
         </div>
       </DisclosurePanel>
     </Disclosure>
+    
+    <CartModal open={open} setOpen={setOpen}/>
+
+  </>
   );
 }
