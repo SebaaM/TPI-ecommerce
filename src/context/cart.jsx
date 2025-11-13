@@ -47,6 +47,10 @@ export const CartProvider = ({ children }) => {
     return cartItems.reduce((total, item) => total + item.price * item.quantity, 0); // calculate the total price of the items in the cart
     };
 
+    const getCartQuantity = () => {
+    return cartItems.reduce((total, item) => total + item.quantity, 0); // calcular cantidad de items en cart
+    };
+
 
     useEffect(() => {
     localStorage.setItem("cartItems", JSON.stringify(cartItems));
@@ -73,6 +77,7 @@ return (
       removeFromCart,
       clearCart,
       getCartTotal,
+      getCartQuantity,
     }}
   >
     {children}

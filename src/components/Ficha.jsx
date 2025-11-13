@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import Boton from "./Boton";
 import BotonMovil from "./BotonMovil";
 import { CartContext } from "../context/cart";
-import { useContext, useEffect, useState } from 'react'
+import { useContext } from 'react'
 
 
 

@@ -1,5 +1,8 @@
-import { useState } from 'react'
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import { CartContext } from "../context/cart";
+import { useContext } from 'react'
+
 import {
   Disclosure,
   DisclosureButton,
@@ -30,7 +33,8 @@ function classNames(...classes) {
 
 export default function Navbar({ value, onChange }) {
   const [open, setOpen] = useState(false)
-
+  const { getCartQuantity } = useContext(CartContext)
+  
 
   return (
     <>
@@ -89,10 +93,10 @@ export default function Navbar({ value, onChange }) {
             </div>
 
             {/* Carrito */}
-            <div className="relative cursor-pointer">
+            <div className="relative cursor-pointer" onClick={() => setOpen(prev => !prev)}>
               <ShoppingCartIcon className="h-6 w-6 text-gray-300 hover:text-white transition" />
               <span className="absolute -top-1 -right-1 bg-red-500 text-xs text-white rounded-full px-[5px]">
-                1
+                {getCartQuantity()}
               </span>
             </div>
 
