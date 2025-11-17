@@ -4,7 +4,7 @@ export default function CategoriaCard({ id, picture, title, description }) {
   // agregar el onclick para redirigir a la pagina de la categoria
   return (
     <Link
-      to={`/categories/${id}`}
+      to={`/categorias/${id}`}
       className="relative group block rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 aspect-4/5 w-full max-w-60"
     >
       {/* Imagen */}

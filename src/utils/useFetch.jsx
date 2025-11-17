@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 export function useFetch(url, options = {}) {
-  const [data, setData] = useState(null);
+  const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -31,7 +31,7 @@ export function useFetch(url, options = {}) {
   }, [url, JSON.stringify(options)]); // importante para evitar efectos colaterales
 
   return {
-    data: Array.isArray(data) ? data : [],
+    data,
     loading,
     error,
   };

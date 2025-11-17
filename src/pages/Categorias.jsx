@@ -20,6 +20,7 @@ function Categorias() {
           categorias.map((cat) => (
             <CategoriaCard
               key={cat.id}
+              id={cat.id}
               title={cat.title}
               picture={`http://161.35.104.211:8000${cat.picture}`}
               description={cat.description}
