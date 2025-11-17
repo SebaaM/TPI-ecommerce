@@ -1,8 +1,8 @@
 // hooks/useFetchCategoria.js
 import { useFetch } from "./useFetch";
 
-export function useFetchCategoria(id) {
-  const url = `http://161.35.104.211:8000/categories/${id}`;
+export function useFetchCategoria() {
+  const url = `http://161.35.104.211:8000/categories/`;
   const options = {
     method: "GET",
     headers: {

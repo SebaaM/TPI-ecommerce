@@ -8,7 +8,7 @@ function App() {
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/productos" element={<Productos />} />
-      <Route path="/categoria/:id" element={<FiltroPorCategoria />} />
+      <Route path="/categorias/" element={<FiltroPorCategoria />} />
       {/*<Route path="*" element={<NotFound />} />*/}
     </Routes>
   );
@@ -17,3 +17,4 @@ function App() {
 export default App;
 // <Route path="/product/:id" element={<Product />} />
 // <Route path="*" element={<NotFound />} />; Siempre al final para rutas no encontradas.
+// <Route path="/categorias/:id" element={<FiltroPorCategoria />} />
