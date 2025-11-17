@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+
 import {
   Disclosure,
   DisclosureButton,
@@ -13,13 +14,13 @@ import {
   ShoppingCartIcon,
 } from "@heroicons/react/24/outline";
 import { SearchBar } from "./SearchBar";
+import { useFetchCategoria } from "../utils/useFetchCategoria";
 
 /*cambiar por links definitivos a cada seccion cuando esten creadas las paginas */
 const navigation = [
   { name: "Inicio", href: "/" },
   { name: "Productos", href: "/productos" },
-  { name: "Categorias", href: "/categorias"},
-  { name: "Admin", href: "/Admin"},
+  { name: "Admin", href: "/Admin" },
 ];
 
 function classNames(...classes) {
@@ -27,6 +28,16 @@ function classNames(...classes) {
 }
 
 export default function Navbar({ value, onChange }) {
+  const {
+    data: categorias,
+    loading: catLoading,
+    error: catError,
+  } = useFetchCategoria();
+  // categorias vuelve como undefined
+  const categoriasNombre = Array.isArray(categorias)
+    ? categorias.map((cat) => cat.title)
+    : [];
+
   return (
     <Disclosure
       as="nav"
@@ -72,6 +83,44 @@ export default function Navbar({ value, onChange }) {
                     {item.name}
                   </Link>
                 ))}
+                <Menu as="div" className="relative">
+                  <Menu.Button className="text-sm px-3 py-2 rounded-md bg-gray-800 text-white hover:bg-gray-700 transition">
+                    Categorías
+                  </Menu.Button>
+                  <MenuItems className="absolute z-50 mt-2 w-48 origin-top-right rounded-md bg-[#2a2d31] py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                    {catLoading ? (
+                      <div className="px-4 py-2 text-sm text-gray-400">
+                        Cargando...
+                      </div>
+                    ) : catError ? (
+                      <div className="px-4 py-2 text-sm text-red-400">
+                        Error al cargar
+                      </div>
+                    ) : Array.isArray(categorias) && categorias.length > 0 ? (
+                      categorias.map((cat) => (
+                        <MenuItem
+                          key={cat.id}
+                          as={Link}
+                          to={`/categorias/${cat.id}`}
+                          className="block px-4 py-2 text-sm text-gray-200 data-focus:bg-gray-700"
+                        >
+                          {cat.title}
+                        </MenuItem>
+                      ))
+                    ) : (
+                      <div className="px-4 py-2 text-sm text-gray-400">
+                        No hay categorías disponibles
+                      </div>
+                    )}
+                    <MenuItem
+                      as={Link}
+                      to="/categorias"
+                      className="block px-4 py-2 text-sm text-gray-200 font-semibold data-focus:bg-gray-700 border-t border-gray-600"
+                    >
+                      Ver todas las categorías
+                    </MenuItem>
+                  </MenuItems>
+                </Menu>
               </div>
             </div>
           </div>
@@ -142,13 +191,58 @@ export default function Navbar({ value, onChange }) {
               as={Link}
               to={item.href}
               className={classNames(
-              "text-white hover:bg-gray-700 block rounded-md px-3 py-2 text-base font-medium"
+                "text-white hover:bg-gray-700 block rounded-md px-3 py-2 text-base font-medium"
               )}
             >
               {item.name}
             </DisclosureButton>
           ))}
         </div>
+        <Disclosure>
+          {({ open }) => (
+            <>
+              <DisclosureButton className="w-full text-left text-white hover:bg-gray-700 block rounded-md px-3 py-2 text-base font-medium">
+                Categorías
+                <span className="float-right">{open ? "▲" : "▼"}</span>
+              </DisclosureButton>
+              <DisclosurePanel className="pl-4">
+                {catLoading ? (
+                  <div className="px-3 py-2 text-sm text-gray-400">
+                    Cargando categorías...
+                  </div>
+                ) : catError ? (
+                  <div className="px-3 py-2 text-sm text-red-400">
+                    Error al cargar categorías
+                  </div>
+                ) : Array.isArray(categorias) && categorias.length > 0 ? (
+                  <>
+                    {categorias.map((cat) => (
+                      <DisclosureButton
+                        key={cat.id}
+                        as={Link}
+                        to={`/categorias/${cat.id}`}
+                        className="text-white hover:bg-gray-700 block rounded-md px-3 py-2 text-base font-normal"
+                      >
+                        {cat.title}
+                      </DisclosureButton>
+                    ))}
+                    <DisclosureButton
+                      as={Link}
+                      to="/categorias"
+                      className="text-white hover:bg-gray-700 block rounded-md px-3 py-2 text-base font-semibold border-t border-gray-600 mt-2"
+                    >
+                      Ver todas las categorías
+                    </DisclosureButton>
+                  </>
+                ) : (
+                  <div className="px-3 py-2 text-sm text-gray-400">
+                    No hay categorías disponibles
+                  </div>
+                )}
+              </DisclosurePanel>
+            </>
+          )}
+        </Disclosure>
       </DisclosurePanel>
     </Disclosure>
   );
