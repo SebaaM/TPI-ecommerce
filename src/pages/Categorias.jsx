@@ -1,10 +1,11 @@
 import { useParams } from "react-router-dom";
 import { useFetchCategoria } from "../utils/useFetchCategoria";
 import CategoriaCard from "../components/categoriaComponent/CategoriaCard";
+import { useState } from "react";
 
 function Categorias() {
   const { data: categorias, loading, error } = useFetchCategoria();
-  const [productos, setProducts] = useState([]);
+  // const [productos, setProducts] = useState([]);
 
   if (loading) return <div>Cargando categorias...</div>;
   if (error) return <div>Error: {error}</div>;
