@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { ProductList } from "./ProductList";
-import FiltroPorCategoria from "../pages/FiltroPorCategoria";
+import FiltroPorCategoria from "../pages/Categorias";
 import Navbar from "./Navbar";
 export const Catalogo = ({ apiUrl, apiToken }) => {
   const [searchInput, setSearchInput] = useState("");

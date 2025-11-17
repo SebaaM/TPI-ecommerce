@@ -30,5 +30,9 @@ export function useFetch(url, options = {}) {
     fetchData();
   }, [url, JSON.stringify(options)]); // importante para evitar efectos colaterales
 
-  return { data, loading, error };
+  return {
+    data: Array.isArray(data) ? data : [],
+    loading,
+    error,
+  };
 }

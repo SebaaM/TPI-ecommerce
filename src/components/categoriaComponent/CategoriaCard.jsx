@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 
 export default function CategoriaCard({ id, picture, title, description }) {
+  // agregar el onclick para redirigir a la pagina de la categoria
   return (
     <Link
       to={`/categories/${id}`}
