@@ -4,7 +4,7 @@ import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/re
 import { XMarkIcon } from '@heroicons/react/24/outline'
 
 export default function CartModal({open, setOpen}) {
-  const { cartItems, addToCart, removeFromCart, clearCart, getCartTotal, } = useContext(CartContext)
+  const { cartItems, addToCart, removeFromCart, clearCart, getCartTotal, deleteFromCart} = useContext(CartContext)
   
   return (
     <div>
@@ -53,30 +53,32 @@ export default function CartModal({open, setOpen}) {
                                     <h3>
                                       <a>{product.titulo}</a>
                                     </h3>
-                                    <p className="ml-4">$ {product.price}</p>
+                                    <p className="ml-4">$ {(product.price*product.quantity).toFixed(2)}</p>
                                   </div>
                                 </div>
                                 <div className="flex flex-1 items-end justify-between text-sm">
-                                  <p className="text-gray-500">Cantidad {product.quantity}</p>
 
-                                  <div className="flex">
-                                     <div class="flex items-center px-2.5 py-1.5 border border-gray-300 text-slate-900 text-xs rounded-md">
-                                        <span class="cursor-pointer">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="w-2.5 fill-current" viewBox="0 0 124 124">
+                                     <div className="flex items-center px-2.5 py-1.5 border border-gray-300 text-slate-900 text-xs rounded-md">
+                                        {/*Boton menos en modal de carro*/ }
+                                        <span className="cursor-pointer"  onClick={()=>removeFromCart(product)}>
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="w-2.5 fill-current" viewBox="0 0 124 124">
                                                 <path d="M112 50H12C5.4 50 0 55.4 0 62s5.4 12 12 12h100c6.6 0 12-5.4 12-12s-5.4-12-12-12z" data-original="#000000"></path>
                                             </svg>
                                         </span>
-
-                                        <span class="mx-3">2</span>
-                                        <span class="cursor-pointer">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="w-2.5 fill-current" viewBox="0 0 42 42">
+                                         {/*Cantidad de producto en modal de carro*/ }
+                                        <span className="mx-3">{product.quantity}</span>
+                                         {/*Boton mas en modal de carro*/ }
+                                        <span className="cursor-pointer" onClick={()=>addToCart(product)}>
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="w-2.5 fill-current" viewBox="0 0 42 42">
                                                 <path d="M37.059 16H26V4.941C26 2.224 23.718 0 21 0s-5 2.224-5 4.941V16H4.941C2.224 16 0 18.282 0 21s2.224 5 4.941 5H16v11.059C16 39.776 18.282 42 21 42s5-2.224 5-4.941V26h11.059C39.776 26 42 23.718 42 21s-2.224-5-4.941-5z" data-original="#000000"></path>
                                             </svg>
                                         </span>
                                     </div>
+                                 
+                                  <div className="flex">
                                     <button type="button" 
                                         className="font-medium text-indigo-600 hover:text-indigo-500" 
-                                        onClick={() => removeFromCart(product)}>
+                                        onClick={() => deleteFromCart(product)}>
                                       Eliminar
                                     </button>
                                   </div>
@@ -92,26 +94,26 @@ export default function CartModal({open, setOpen}) {
                   <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
                     <div className="flex justify-between text-base font-medium text-gray-900">
                       <p>Total</p>
-                      <p>$ {getCartTotal()}</p>
+                      <p>$ {getCartTotal().toFixed(2)}</p>
                     </div>
-                    <p className="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p>
+                    <p className="mt-0.5 text-sm text-gray-500">Envío e impuestos calculados al pagar.</p>
                     <div className="mt-6">
                       <a
                         href="#"
-                        className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-xs hover:bg-indigo-700"
+                        className="flex items-center justify-center rounded-md border border-transparent bg-green-700 px-6 py-3 text-base font-medium text-white shadow-xs hover:bg-green-900"
                       >
-                        Checkout
+                        Realizar compra
                       </a>
                     </div>
                     <div className="mt-6 flex justify-center text-center text-sm text-gray-500">
                       <p>
-                        or{' '}
+                        o{' '}
                         <button
                           type="button"
                           onClick={() => setOpen(false)}
                           className="font-medium text-indigo-600 hover:text-indigo-500"
                         >
-                          Continue Shopping
+                          Seguir explorando
                           <span aria-hidden="true"> &rarr;</span>
                         </button>
                       </p>

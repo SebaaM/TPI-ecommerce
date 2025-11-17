@@ -37,7 +37,10 @@ export const CartProvider = ({ children }) => {
         );
     }
     };
-
+    //Elimina un producto del carrito sin importar su cantidad
+    const deleteFromCart = (item) =>{
+        setCartItems(cartItems.filter((cartItem) => cartItem.id !== item.id));
+    }
     const clearCart = () => {
     setCartItems([]); // set the cart items to an empty array
     };
@@ -54,7 +57,6 @@ export const CartProvider = ({ children }) => {
 
     useEffect(() => {
     localStorage.setItem("cartItems", JSON.stringify(cartItems));
-    console.log(cartItems);
     }, [cartItems]);
 
 
@@ -78,6 +80,7 @@ return (
       clearCart,
       getCartTotal,
       getCartQuantity,
+      deleteFromCart,
     }}
   >
     {children}
