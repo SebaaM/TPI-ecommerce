@@ -47,10 +47,10 @@ export default function CartModal({open, setOpen}) {
                                 <img alt={product.titulo} src={product.urlImagen} className="size-full object-cover" />
                               </div>
 
-                              <div className="ml-4 flex flex-1 flex-col">
+                              <div className="ml-4 flex flex-1 flex-col min-w-0">
                                 <div>   
                                   <div className="flex justify-between text-base font-medium text-gray-900">
-                                    <h3>
+                                    <h3 className="truncate max-w-[60%]">
                                       <a>{product.titulo}</a>
                                     </h3>
                                     <p className="ml-4">$ {(product.price*product.quantity).toFixed(2)}</p>
