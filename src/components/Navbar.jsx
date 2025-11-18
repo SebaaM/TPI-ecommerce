@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-
 import { CartContext } from "../context/cart";
 import { useContext } from "react";
 
@@ -18,6 +17,8 @@ import {
   ShoppingCartIcon,
 } from "@heroicons/react/24/outline";
 import { SearchBar } from "./SearchBar";
+import CartModal from "./cartModal";
+import { useFetchCategoria } from "../utils/useFetchCategoria";
 
 /*cambiar por links definitivos a cada seccion cuando esten creadas las paginas */
 const navigation = [
@@ -31,6 +32,19 @@ function classNames(...classes) {
 }
 
 export default function Navbar({ value, onChange }) {
+  const [open, setOpen] = useState(false);
+  const { getCartQuantity } = useContext(CartContext);
+
+  const {
+    data: categorias,
+    loading: catLoading,
+    error: catError,
+  } = useFetchCategoria();
+  // categorias vuelve como undefined
+  const categoriasNombre = Array.isArray(categorias)
+    ? categorias.map((cat) => cat.title)
+    : [];
+
   return (
     <>
       <Disclosure
