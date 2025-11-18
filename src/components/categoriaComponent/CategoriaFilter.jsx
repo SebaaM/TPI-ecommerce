@@ -3,6 +3,8 @@ import { useFetchCategoria } from "../../utils/useFetchCategoria";
 import { useFetchProductos } from "../../utils/useFetchProductos";
 import Ficha from "../Ficha";
 import { useEffect, useState } from "react";
+import Navbar from "../Navbar";
+import Footer from "../genericos/Footer";
 
 function CategoriaFilter() {
   const id = useParams().id;
@@ -20,8 +22,9 @@ function CategoriaFilter() {
     .filter((p) => p.title.toLowerCase().includes(searchInput.toLowerCase()));
 
   return (
-    <div className="p-4 bg-gray-900 min-h-screen w-full">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div className="bg-gray-900 min-h-screen w-full">
+      <Navbar />
+      <div className="p-10 m-10 grid grid-cols-1 md:grid-cols-3 gap-4">
         {productosFiltrados.length > 0 ? (
           productosFiltrados.map((producto, i) => (
             <Ficha
@@ -39,6 +42,7 @@ function CategoriaFilter() {
           </div>
         )}
       </div>
+      <Footer />
     </div>
   );
 }
