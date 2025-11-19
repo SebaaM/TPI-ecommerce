@@ -22,9 +22,10 @@ function CategoriaFilter() {
     .filter((p) => p.title.toLowerCase().includes(searchInput.toLowerCase()));
 
   return (
-    <div className="bg-gray-900 min-h-screen w-full">
+    <>
+    <div className="pt-12 px-4 bg-gray-800 min-h-screen w-full">
       <Navbar />
-      <div className="p-10 m-10 grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="mt-8 -mx-20px grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 w-full justify-items-center">
         {productosFiltrados.length > 0 ? (
           productosFiltrados.map((producto, i) => (
             <Ficha
@@ -42,8 +43,10 @@ function CategoriaFilter() {
           </div>
         )}
       </div>
-      <Footer />
+      
     </div>
+    <Footer />
+    </>
   );
 }
 

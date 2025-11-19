@@ -4,6 +4,7 @@ import NotFound from "../pages/NotFound";
 import Productos from "../pages/Productos";
 import Categorias from "../pages/Categorias";
 import CategoriaFilter from "../components/categoriaComponent/CategoriaFilter";
+import ProductPage from "../pages/ProductPage";
 
 function App() {
   return (
@@ -12,11 +13,12 @@ function App() {
       <Route path="/productos" element={<Productos />} />
       <Route path="/categorias/" element={<Categorias />} />
       <Route path="/categorias/:id" element={<CategoriaFilter />} />
+      <Route path="/producto/:id" element={<ProductPage/>} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
 }
 
 export default App;
-// <Route path="/product/:id" element={<Product />} />
+
 // <Route path="*" element={<NotFound />} />; Siempre al final para rutas no encontradas.
