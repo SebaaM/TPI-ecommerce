@@ -44,8 +44,8 @@ export const ProductList = ({ apiUrl, apiToken, searchInput }) => {
           <Ficha
             key={i}
             id={producto.id}
-            urlImagen={`http://161.35.104.211:8000${producto.pictures}`}
-            titulo={producto.title}
+            pictures={`http://161.35.104.211:8000${producto.pictures}`}
+            title={producto.title}
             description={producto.description}
             price={producto.price}
           />

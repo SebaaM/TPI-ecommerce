@@ -44,21 +44,21 @@ export default function CartModal({open, setOpen}) {
                           {cartItems.map((product) => (
                             <li key={product.id} className="flex py-6">
                               <div className="size-24 shrink-0 overflow-hidden rounded-md border border-gray-200">
-                                <img alt={product.titulo} src={product.urlImagen} className="size-full object-cover" />
+                                <img alt={product.title} src={product.pictures} className="size-full object-cover" />
                               </div>
 
                               <div className="ml-4 flex flex-1 flex-col min-w-0">
                                 <div>   
                                   <div className="flex justify-between text-base font-medium text-gray-900">
                                     <h3 className="truncate max-w-[60%]">
-                                      <a>{product.titulo}</a>
+                                      <a>{product.title}</a>
                                     </h3>
                                     <p className="ml-4">$ {(product.price*product.quantity).toFixed(2)}</p>
                                   </div>
                                 </div>
                                 <div className="flex flex-1 items-end justify-between text-sm">
 
-                                     <div className="flex items-center px-2.5 py-1.5 border border-gray-300 text-slate-900 text-xs rounded-md">
+                                     <div className="flex items-center md:px-2.5 md:py-1.5 border border-gray-300 text-slate-900 text-xs rounded-md">
                                         {/*Boton menos en modal de carro*/ }
                                         <span className="cursor-pointer"  onClick={()=>removeFromCart(product)}>
                                             <svg xmlns="http://www.w3.org/2000/svg" className="w-2.5 fill-current" viewBox="0 0 124 124">
@@ -74,13 +74,18 @@ export default function CartModal({open, setOpen}) {
                                             </svg>
                                         </span>
                                     </div>
-                                 
-                                  <div className="flex">
+                                 {/* Icono de eliminar del carrito el producto */ }
+                                  <div className="flex items-center">
                                     <button type="button" 
-                                        className="font-medium text-indigo-600 hover:text-indigo-500" 
-                                        onClick={() => deleteFromCart(product)}>
+                                            className="mb-1 font-semibold text-red-500 text-xs flex items-center gap-2 shrink-0 cursor-pointer"
+                                            onClick={() => deleteFromCart(product)}>
+                                      <svg xmlns="http://www.w3.org/2000/svg" className="w-4 fill-current inline" viewBox="0 0 24 24">
+                                        <path d="M19 7a1 1 0 0 0-1 1v11.191A1.92 1.92 0 0 1 15.99 21H8.01A1.92 1.92 0 0 1 6 19.191V8a1 1 0 0 0-2 0v11.191A3.918 3.918 0 0 0 8.01 23h7.98A3.918 3.918 0 0 0 20 19.191V8a1 1 0 0 0-1-1Zm1-3h-4V2a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v2H4a1 1 0 0 0 0 2h16a1 1 0 0 0 0-2ZM10 4V3h4v1Z" data-original="#000000"></path>
+                                        <path d="M11 17v-7a1 1 0 0 0-2 0v7a1 1 0 0 0 2 0Zm4 0v-7a1 1 0 0 0-2 0v7a1 1 0 0 0 2 0Z" data-original="#000000"></path>
+                                      </svg>
                                       Eliminar
-                                    </button>
+                                  </button>
+                                    
                                   </div>
                                 </div>
                               </div>
