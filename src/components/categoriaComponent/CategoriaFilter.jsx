@@ -11,11 +11,9 @@ function CategoriaFilter() {
   const { data: productos, loading, error } = useFetchProductos();
 
   const [searchInput, setSearchInput] = useState("");
-
-  if (loading) return <div>Cargando productos...</div>;
-  if (error) return <div>Error: {error}</div>;
-  if (!productos || productos === "")
-    return <div>No hay productos en esta categoría</div>;
+  //movido hacia abajo de nav bar para que puedan renderizar aunque este en "loading"
+  //if (loading) return <div>Cargando productos...</div>;
+  //if (error) return <div>Error: {error}</div>;
 
   const productosFiltrados = productos
     .filter((p) => String(p.category_id) === String(id))
@@ -25,6 +23,19 @@ function CategoriaFilter() {
     <>
     <div className="pt-12 px-4 bg-gray-800 min-h-screen w-full">
       <Navbar />
+      {/* Si hay un error */}
+      { error && (<div>Error: {error}</div>)
+      }
+       {/* Cargando */}
+        {loading && (
+          <div className="text-white py-10">Cargando categorías...</div>
+        )}
+        {/* No esta cargando pero no hay productos*/}
+          {!loading && (!productos || productos.length === 0) && (
+          <div className="text-white py-10"> No hay productos en esta categoría</div>
+        )}
+      {/* No esta cargando y hay productos */ }
+       {!loading && productos && productos.length > 0 && (
       <div className="mt-8 -mx-20px grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 w-full justify-items-center">
         {productosFiltrados.length > 0 ? (
           productosFiltrados.map((producto, i) => (
@@ -43,7 +54,7 @@ function CategoriaFilter() {
           </div>
         )}
       </div>
-      
+       )}
     </div>
     <Footer />
     </>
