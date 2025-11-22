@@ -49,7 +49,7 @@ export default function Navbar({ value, onChange }) {
     <>
       <Disclosure
         as="nav"
-        className="fixed top-0 left-0 right-0 z-50 bg-[#1b1d1f] text-white shadow-md border-b border-gray-700 overflow-visible"
+        className="mb-2 md:mb-0 fixed top-0 left-0 right-0 z-50 bg-[#1b1d1f] text-white shadow-md border-b border-gray-700 overflow-visible"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex h-16 items-center justify-between">
@@ -255,6 +255,12 @@ export default function Navbar({ value, onChange }) {
             )}
           </Disclosure>
         </DisclosurePanel>
+            {/* SearchBar móvil */}
+              <div className="block md:hidden px-4 pb-3">
+                <SearchBar value={value} onChange={onChange} />
+              </div>
+
+
       </Disclosure>
 
       <CartModal open={open} setOpen={setOpen} />

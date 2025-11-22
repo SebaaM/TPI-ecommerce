@@ -4,7 +4,18 @@ export const SearchBar = ({ value, onChange }) => {
       <div className="relative flex ">
         
           <input
-            className="appearance-none border-2 pl-10 border-gray-300 hover:border-gray-400 transition-colors rounded-md w-full py-2 px-3 text-white placeholder-gray-400 leading-tight focus:outline-none focus:ring-purple-600 focus:border-purple-600 focus:shadow-outline"
+            className="appearance-none 
+                       border-2 pl-10 
+                       border-gray-300 
+                       hover:border-gray-400 
+                       transition-colors 
+                       rounded-md w-full 
+                       py-2 px-3 text-white 
+                       placeholder-gray-400 
+                       leading-tight focus:outline-none 
+                       focus:ring-purple-600 
+                       focus:border-purple-600 
+                       focus:shadow-outline"
             id="username"
             type="text"
             placeholder="Buscar..."

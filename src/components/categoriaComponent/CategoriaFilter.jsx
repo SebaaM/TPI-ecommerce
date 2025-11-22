@@ -21,8 +21,8 @@ function CategoriaFilter() {
 
   return (
     <>
-    <div className="pt-12 px-4 bg-gray-800 min-h-screen w-full">
-      <Navbar />
+    <div className="pt-24 md:pt-12 px-4 bg-gray-800 min-h-screen w-full">
+      <Navbar value={searchInput} onChange={setSearchInput}/>
       {/* Si hay un error */}
       { error && (<div>Error: {error}</div>)
       }
