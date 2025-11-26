@@ -23,13 +23,13 @@ export default function ProductDetail() {
     };
 
 
-    if (loading) return <div className="h-[600px] w-full bg-gray-800 animate-pulse rounded-xl">Cargando...</div>;;
+    if (loading) return <div className="h-[600px] w-full bg-gray-800 animate-pulse rounded-xl">Cargando...</div>;
     if (error) return <div>Error: {error}</div>;
     if (!producto || producto=== "")
       return <div>No hay productos en esta categoría</div>;
    
   return (
-    <div className="p-8 mt-16 mb-6 bg-gray-800 text-white">
+    <div className="p-8 mt-24 md:mt-16 mb-6 bg-gray-800 text-white">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <div className="flex flex-col md:flex-row gap-10 justify-items-center">

@@ -4,6 +4,8 @@ import CategoriaLanding from "../components/landing/CategoriaLanding";
 import Carousel from "../components/landing/Carousel";
 import Navbar from "../components/Navbar";
 import Footer from "../components/genericos/Footer";
+import { useState } from "react";
+import ResultadosBusqueda from "../components/ResultadosBusqueda";
 
 export default function LandingPage() {
   // Fetch de categorías
@@ -26,17 +28,42 @@ export default function LandingPage() {
       )
     : [];
 
-  if (loadingCategories || loadingProducts) {
-    return <p className="text-center text-gray-400">Cargando...</p>;
-  }
+    //usado en nav Bar y barra de busqueda
+    const [searchInput, setSearchInput] = useState("");
 
-  if (errorCategories || errorProducts) {
-    return <p className="text-center text-red-500">Error al cargar datos</p>;
-  }
+
+    // filtrado de productos para sugerencias
+    const searchResults = searchInput.length > 0
+      ? products.filter(p => 
+          p.title.toLowerCase().includes(searchInput.toLowerCase())
+        )
+      : [];
+
+
 
   return (
     <div>
-      <Navbar />
+      <Navbar value={searchInput} onChange={setSearchInput} />
+      {/* Componente que muestra resultados de la busqueda */}
+     {searchInput && (
+      <ResultadosBusqueda 
+          searchResults={searchResults}
+      />
+      )}
+       {/* Si hay un error */}
+      { (errorCategories || errorProducts ) && (<div>Error al cargar datos</div>)
+      }
+       {/* Cargando */}
+        {(loadingCategories || loadingProducts)&& (
+           <div className="h-[600px] w-full bg-gray-950 animate-pulse rounded-xl">Cargando...</div>
+        )}
+        {/* No esta cargando pero no hay productos*/}
+          {!(loadingCategories || loadingProducts) && (!products || products.length === 0) && (
+          <div className="text-white py-10"> No hay productos cargados</div>
+        )}
+
+       {/* No esta cargando y hay productos */ }
+       {!(loadingCategories || loadingProducts) && products && products.length > 0 && (
       <div className="bg-gray-950 text-white   px-6 py-20">
         <header className="text-center mb-12">
           <h1 className="sm:text-5xl text-4xl font-bold mb-2">
@@ -70,6 +97,7 @@ export default function LandingPage() {
           ))}
         </section>
       </div>
+       )}
       <Footer />
     </div>
   );

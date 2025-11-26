@@ -23,7 +23,7 @@ export default function ProductoLanding({
           <img
             src={API_URL + pictures[0]}
             alt={title}
-            className="w-full h-40 sm:h-80 sm:object-contain object-cover"
+            className="p-4 w-full h-40 sm:h-80 sm:object-contain object-cover"
           />
           <div className="p-4">
             <h3 className="text-lg sm:text-xl font-semibold text-white mb-2">
