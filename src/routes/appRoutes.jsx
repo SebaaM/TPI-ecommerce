@@ -6,6 +6,7 @@ import Categorias from "../pages/Categorias";
 import CategoriaFilter from "../components/categoriaComponent/CategoriaFilter";
 import ProductPage from "../pages/ProductPage";
 import LandingPage from "../pages/Landing";
+import AdminProductos from "../pages/Admin";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
       <Route path="/categorias/" element={<Categorias />} />
       <Route path="/categorias/:id" element={<CategoriaFilter />} />
       <Route path="/producto/:id" element={<ProductPage />} />
+      <Route path="/admin" element={<AdminProductos />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
