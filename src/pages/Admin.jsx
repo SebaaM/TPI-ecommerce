@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useFetchProductos } from "../utils/useFetchProductos";
 import { SearchBar } from "../components/SearchBar";
 import TablaProducto from "../components/admin/TablaProducto";
+import NavBar from "../components/Navbar";
+import Footer from "../components/genericos/Footer";
 
 export default function AdminProductos() {
   const [search, setSearch] = useState("");
@@ -29,18 +31,22 @@ export default function AdminProductos() {
     ) || [];
 
   return (
-    <div className="p-4 sm:p-6">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-3">
-        <SearchBar value={search} onChange={setSearch} />
-        <button
-          className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded shadow"
-          onClick={() => alert("Agregar videojuego")}
-        >
-          + Agregar videojuego
-        </button>
-      </div>
+    <>
+      <NavBar />
+      <div className="p-4 sm:p-6">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-3">
+          <SearchBar value={search} onChange={setSearch} />
+          <button
+            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded shadow"
+            onClick={() => alert("Agregar videojuego")}
+          >
+            + Agregar videojuego
+          </button>
+        </div>
 
-      <TablaProducto productos={juegosFiltrado} />
-    </div>
+        <TablaProducto productos={juegosFiltrado} />
+      </div>
+      <Footer />
+    </>
   );
 }
