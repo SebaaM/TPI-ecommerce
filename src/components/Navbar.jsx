@@ -24,7 +24,7 @@ import { useFetchCategoria } from "../utils/useFetchCategoria";
 const navigation = [
   { name: "Inicio", href: "/" },
   { name: "Productos", href: "/productos" },
-  { name: "Admin", href: "/Admin" },
+  { name: "Admin", href: "/admin" },
 ];
 
 function classNames(...classes) {
@@ -255,12 +255,10 @@ export default function Navbar({ value, onChange }) {
             )}
           </Disclosure>
         </DisclosurePanel>
-            {/* SearchBar móvil */}
-              <div className="block md:hidden px-4 pb-3">
-                <SearchBar value={value} onChange={onChange} />
-              </div>
-
-
+        {/* SearchBar móvil */}
+        <div className="block md:hidden px-4 pb-3">
+          <SearchBar value={value} onChange={onChange} />
+        </div>
       </Disclosure>
 
       <CartModal open={open} setOpen={setOpen} />
