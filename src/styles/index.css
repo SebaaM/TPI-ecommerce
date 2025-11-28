@@ -13,11 +13,19 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-html, body, #root {
+html,
+body,
+#root {
   margin: 0;
   padding: 0;
   width: 100%;
   min-height: 100vh;
   background-color: #1f2937;
   overflow-x: hidden;
+}
+
+.swiper-slide-active {
+  border: 2px solid #2cc212;
+  box-shadow: 0 0 15px #63ff48, 0 0 30px #58ff3a;
+  border-radius: 0.5rem;
 }
