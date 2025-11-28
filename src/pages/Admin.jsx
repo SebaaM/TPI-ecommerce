@@ -33,9 +33,10 @@ export default function AdminProductos() {
   return (
     <>
       <NavBar />
-      <div className="p-4 sm:p-6">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-3">
+      <div className="pt-20 px-10 bg-[#1b1d1f] min-h-screen text-white">
+        <div className=" flex justify-between  font-bold text-white mb-4">
           <SearchBar value={search} onChange={setSearch} />
+          <h1 className="text-2xl">Lista Productos</h1>
           <button
             className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded shadow"
             onClick={() => alert("Agregar videojuego")}
