@@ -49,12 +49,10 @@ export default function AdminProductos() {
       },
     });
     if (res.ok) {
-      // Filtra el producto eliminado
-      const productosActualizados = juegosFiltrado.filter(
-        (juego) => juego.id !== id
-      );
+      setProductosState((prev) => prev.filter((juego) => juego.id !== id));
+    } else {
+      console.error("Error al eliminar el producto");
     }
-    setProductosState(productosActualizados);
   };
 
   return (
