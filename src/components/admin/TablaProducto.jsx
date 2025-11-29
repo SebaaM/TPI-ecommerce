@@ -1,6 +1,6 @@
 import TablaFila from "./TablaFila";
 
-export default function TablaProducto({ productos }) {
+export default function TablaProducto({ productos, onDelete }) {
   return (
     <div className="overflow-x-auto">
       <table className="min-w-full border border-gray-700 rounded-lg overflow-hidden">
@@ -15,7 +15,7 @@ export default function TablaProducto({ productos }) {
         </thead>
         <tbody className="bg-gray-900 text-gray-200">
           {productos.map((juego) => (
-            <TablaFila key={juego.id} juego={juego} />
+            <TablaFila key={juego.id} juego={juego} onDelete={onDelete} />
           ))}
         </tbody>
       </table>

@@ -4,6 +4,7 @@ import { SearchBar } from "../components/SearchBar";
 import TablaProducto from "../components/admin/TablaProducto";
 import NavBar from "../components/Navbar";
 import Footer from "../components/genericos/Footer";
+import { Link } from "react-router-dom";
 
 export default function AdminProductos() {
   const [search, setSearch] = useState("");
@@ -30,6 +31,17 @@ export default function AdminProductos() {
       juego.title.toLowerCase().includes(search.toLowerCase())
     ) || [];
 
+  // Manejo de delete
+  const handleDelete = async (id) => {
+    if (confirm("¿Seguro que quieres eliminar este producto?")) {
+      const res = await fetch(`/products/${id}`, { method: "DELETE" });
+      if (res.ok) {
+        // Filtra el producto eliminado
+        setProductos(productos.filter((p) => p.id !== id));
+      }
+    }
+  };
+
   return (
     <>
       <NavBar />
@@ -37,15 +49,12 @@ export default function AdminProductos() {
         <div className=" flex justify-between  font-bold text-white mb-4">
           <SearchBar value={search} onChange={setSearch} />
           <h1 className="text-2xl">Lista Productos</h1>
-          <button
-            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded shadow"
-            onClick={() => alert("Agregar videojuego")}
-          >
-            + Agregar videojuego
+          <button className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded shadow">
+            <Link to="/admin/crearProducto">+ Agregar videojuego</Link>
           </button>
         </div>
 
-        <TablaProducto productos={juegosFiltrado} />
+        <TablaProducto productos={juegosFiltrado} onDelete={handleDelete} />
       </div>
       <Footer />
     </>

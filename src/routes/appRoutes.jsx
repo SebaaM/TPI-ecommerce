@@ -7,6 +7,7 @@ import CategoriaFilter from "../components/categoriaComponent/CategoriaFilter";
 import ProductPage from "../pages/ProductPage";
 import LandingPage from "../pages/Landing";
 import AdminProductos from "../pages/Admin";
+import PageFormulario from "../pages/Formulario";
 
 function App() {
   return (
@@ -17,6 +18,8 @@ function App() {
       <Route path="/categorias/:id" element={<CategoriaFilter />} />
       <Route path="/producto/:id" element={<ProductPage />} />
       <Route path="/admin" element={<AdminProductos />} />
+      <Route path="/admin/crearProducto" element={<PageFormulario />} />
+      <Route path="/admin/editarProducto/:id" element={<PageFormulario />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
