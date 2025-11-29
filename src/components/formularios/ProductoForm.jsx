@@ -1,96 +1,83 @@
-import { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import { useFetchCategoria } from "../../utils/useFetchCategoria";
 import { useFetchProduct } from "../../utils/useFetchProduct";
 import { useFetchTags } from "../../utils/useFetchTags";
 
 export default function ProductoForm({ id, onEnvio }) {
-  const { data: producto, loading: loadingProducto } = useFetchProduct(id);
-
-  useEffect(() => {
-    if (producto) {
-      setFormData({
-        title: producto.title || "",
-        description: producto.description || "",
-        price: producto.price || "",
-        category_id: producto.category_id || "",
-        pictures: [],
-        tags: producto.tags?.map((t) => t.id) || [],
-      });
-    }
-  }, [producto]);
+  const { data: producto } = useFetchProduct(id);
+  const { data: categorias } = useFetchCategoria();
+  const { data: tags } = useFetchTags();
 
   const {
-    data: categorias,
-    loadingCategoria,
-    errorCategoria,
-  } = useFetchCategoria();
-  const { data: tags, loading: loadingTags, error: errorTags } = useFetchTags();
-
-  const [formData, setFormData] = useState({
-    title: "",
-    description: "",
-    price: "",
-    category_id: "",
-    pictures: [],
-    tags: [],
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      title: "",
+      description: "",
+      price: 0,
+      category_id: "",
+      tags_ids: [],
+    },
   });
 
   const [previewImages, setPreviewImages] = useState([]);
 
-  // 🔹 Manejo de inputs
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  // cargar datos para editar
+  useEffect(() => {
+    if (producto) {
+      setValue("title", producto.title || "");
+      setValue("description", producto.description || "");
+      setValue("price", producto.price || 0);
+      setValue("category_id", producto.category_id || "");
+      setValue("tags_ids", producto.tags?.map((t) => t.id) || []);
+    }
+  }, [producto, setValue]);
 
-  // 🔹 Manejo de archivos + preview
-  const handleFileChange = (e) => {
-    const files = Array.from(e.target.files);
-    setFormData({ ...formData, pictures: files });
+  // preview en carga
+  const pictures = watch("pictures");
+  useEffect(() => {
+    if (pictures && pictures.length > 0) {
+      const previews = Array.from(pictures).map((file) =>
+        URL.createObjectURL(file)
+      );
+      setPreviewImages(previews);
+    }
+  }, [pictures]);
 
-    // Crear previews
-    const previews = files?.map((file) => URL.createObjectURL(file));
-    setPreviewImages(previews);
-  };
-
-  // 🔹 Manejo de tags
-  const handleTagChange = (id) => {
-    setFormData((prev) => {
-      const alreadySelected = prev.tags.includes(id);
-      return {
-        ...prev,
-        tags: alreadySelected
-          ? prev.tags.filter((t) => t !== id)
-          : [...prev.tags, id],
-      };
-    });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("onSubmit prop:", onEnvio);
-
-    onEnvio(formData);
+  // envio del formulario
+  const onSubmit = (data) => {
+    const body = {
+      title: data.title,
+      description: data.description,
+      price: Number(data.price),
+      category_id: Number(data.category_id),
+      tags_ids: data.tags_ids.map(Number),
+      pictures: Array.from(data.pictures || []).map((file) => file),
+    };
+    onEnvio(body);
   };
 
   return (
-    <div className="max-w-3xl mx-auto p-6 bg-gray-900 text-white rounded-lg shadow-lg">
+    <div className="max-w-3xl mx-auto p-6 bg-gray-700 text-white rounded-lg shadow-lg">
       <h2 className="text-3xl font-bold mb-6 text-center">
-        Crear nuevo producto
+        {id ? "Editar producto" : "Crear nuevo producto"}
       </h2>
 
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         {/* Título */}
         <div>
           <label className="block text-sm font-semibold mb-2">Título</label>
           <input
-            type="text"
-            name="title"
-            value={formData.title}
-            onChange={handleChange}
+            {...register("title", { required: "El título es obligatorio" })}
             placeholder="Ingresa el título del videojuego"
             className="w-full px-4 py-2 rounded-md bg-gray-800 border border-gray-700 focus:ring-2 focus:ring-indigo-500"
           />
+          {errors.title && <span>{errors.title.message}</span>}
         </div>
 
         {/* Descripción */}
@@ -99,13 +86,14 @@ export default function ProductoForm({ id, onEnvio }) {
             Descripción
           </label>
           <textarea
-            name="description"
-            value={formData.description}
-            onChange={handleChange}
+            {...register("description", {
+              required: "La descripción es obligatoria",
+            })}
             placeholder="Ingresa una descripción del videojuego"
             rows={4}
             className="w-full px-4 py-2 rounded-md bg-gray-800 border border-gray-700 focus:ring-2 focus:ring-indigo-500"
           />
+          {errors.description && <span>{errors.description.message}</span>}
         </div>
 
         {/* Precio */}
@@ -113,21 +101,24 @@ export default function ProductoForm({ id, onEnvio }) {
           <label className="block text-sm font-semibold mb-2">Precio</label>
           <input
             type="number"
-            name="price"
-            value={formData.price}
-            onChange={handleChange}
+            {...register("price", {
+              required: "El precio es obligatorio",
+              valueAsNumber: true,
+            })}
             placeholder="Precio..."
             className="w-full px-4 py-2 rounded-md bg-gray-800 border border-gray-700 focus:ring-2 focus:ring-indigo-500"
           />
+          {errors.price && <span>{errors.price.message}</span>}
         </div>
 
         {/* Categoría */}
         <div>
           <label className="block text-sm font-semibold mb-2">Categoría</label>
           <select
-            name="category_id"
-            value={formData.category_id}
-            onChange={handleChange}
+            {...register("category_id", {
+              required: "La categoría es obligatoria",
+              valueAsNumber: true,
+            })}
             className="w-full px-4 py-2 rounded-md bg-gray-800 border border-gray-700 focus:ring-2 focus:ring-indigo-500"
           >
             <option value="">Seleccionar categoría</option>
@@ -137,6 +128,7 @@ export default function ProductoForm({ id, onEnvio }) {
               </option>
             ))}
           </select>
+          {errors.category_id && <span>{errors.category_id.message}</span>}
         </div>
 
         {/* Tags */}
@@ -150,8 +142,8 @@ export default function ProductoForm({ id, onEnvio }) {
               >
                 <input
                   type="checkbox"
-                  checked={formData.tags.includes(tag.id)}
-                  onChange={() => handleTagChange(tag.id)}
+                  value={tag.id}
+                  {...register("tags_ids")}
                   className="accent-indigo-500"
                 />
                 {tag.title}
@@ -165,17 +157,16 @@ export default function ProductoForm({ id, onEnvio }) {
           <label className="block text-sm font-semibold mb-2">Imágenes</label>
           <input
             type="file"
-            name="pictures"
             multiple
             accept="image/*"
-            onChange={handleFileChange}
+            {...register("pictures")}
             className="w-full px-4 py-2 rounded-md bg-gray-800 border border-gray-700 focus:ring-2 focus:ring-indigo-500"
           />
 
           {/* Preview */}
           {previewImages.length > 0 && (
             <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 gap-4">
-              {previewImages?.map((src, idx) => (
+              {previewImages.map((src, idx) => (
                 <img
                   key={idx}
                   src={src}
@@ -193,7 +184,7 @@ export default function ProductoForm({ id, onEnvio }) {
             type="submit"
             className="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 rounded-md text-white font-semibold shadow-md transition"
           >
-            Crear producto
+            {id ? "Actualizar producto" : "Crear producto"}
           </button>
         </div>
       </form>
