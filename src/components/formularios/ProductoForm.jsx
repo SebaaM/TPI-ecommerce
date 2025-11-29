@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useFetchCategoria } from "../../utils/useFetchCategoria";
 import { useFetchProduct } from "../../utils/useFetchProduct";
 import { useFetchTags } from "../../utils/useFetchTags";
@@ -13,7 +13,6 @@ export default function ProductoForm({ id, onEnvio }) {
     register,
     handleSubmit,
     setValue,
-    control,
     watch,
     formState: { errors },
   } = useForm({
@@ -63,6 +62,8 @@ export default function ProductoForm({ id, onEnvio }) {
     };
     onEnvio(body);
   };
+
+  const selectedTags = watch("tag_ids") || [];
 
   return (
     <div className="max-w-3xl mx-auto p-6 bg-gray-700 text-white rounded-lg shadow-lg">
@@ -133,44 +134,34 @@ export default function ProductoForm({ id, onEnvio }) {
           {errors.category_id && <span>{errors.category_id.message}</span>}
         </div>
 
-        {/* Tags con Controller */}
+        {/* Tags */}
         <div>
           <label className="block text-sm font-semibold mb-2">Tags</label>
           <div className="flex flex-wrap gap-3">
-            <Controller
-              name="tag_ids"
-              control={control}
-              render={({ field }) => (
-                <>
-                  {tags?.map((tag) => {
-                    const checked = field.value?.includes(tag.id);
-                    return (
-                      <label
-                        key={tag.id}
-                        className="flex items-center gap-2 px-3 py-1 rounded-md bg-gray-800 border border-gray-700 cursor-pointer hover:bg-gray-700"
-                      >
-                        <input
-                          type="checkbox"
-                          value={tag.id}
-                          checked={checked}
-                          onChange={(e) => {
-                            if (e.target.checked) {
-                              field.onChange([...field.value, tag.id]);
-                            } else {
-                              field.onChange(
-                                field.value.filter((tid) => tid !== tag.id)
-                              );
-                            }
-                          }}
-                          className="h-4 w-4"
-                        />
-                        {tag.title}
-                      </label>
-                    );
-                  })}
-                </>
-              )}
-            />
+            {tags?.map((tag) => (
+              <label
+                key={tag.id}
+                className="flex items-center gap-2 px-3 py-1 rounded-md bg-gray-800 border border-gray-700 cursor-pointer hover:bg-gray-700"
+              >
+                <input
+                  type="checkbox"
+                  value={tag.id}
+                  checked={selectedTags.includes(tag.id)}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setValue("tag_ids", [...selectedTags, tag.id]);
+                    } else {
+                      setValue(
+                        "tag_ids",
+                        selectedTags.filter((id) => id !== tag.id)
+                      );
+                    }
+                  }}
+                  className="h-4 w-4"
+                />
+                {tag.title}
+              </label>
+            ))}
           </div>
         </div>
 
