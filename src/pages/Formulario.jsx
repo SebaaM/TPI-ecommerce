@@ -18,8 +18,9 @@ export default function PageFormulario() {
         description: data.description,
         price: Number(data.price),
         category_id: Number(data.category_id),
-        tags_ids: data.tags_ids,
+        tag_ids: data.tag_ids,
       };
+      // console.log(body.tag_ids);
 
       const res = await fetch(url, {
         method,
@@ -40,15 +41,11 @@ export default function PageFormulario() {
       // Obtener el product_id (si es POST)
       const product = await res.json();
       const productId = id || product.id;
-      console.log("Producto guardado con ID:", productId);
-      // hasa aca llega ok la iamgen.
-      console.log("imagen", data.pictures);
       // cargar imagen al endpoint de pictures productos
       if (data.pictures && data.pictures.length > 0) {
         await cargarImagenProducto(productId, data.pictures);
-
-        navigate("/admin");
       }
+      navigate("/admin");
     } catch (err) {
       console.error("Error de red:", err);
     }
@@ -58,8 +55,6 @@ export default function PageFormulario() {
     const formData = new FormData();
 
     Array.from(pictures).forEach((file) => {
-      console.log("Archivo:", file.name, file.type, file.size);
-
       formData.append("files", file);
     });
 

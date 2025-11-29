@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { useFetchCategoria } from "../../utils/useFetchCategoria";
 import { useFetchProduct } from "../../utils/useFetchProduct";
 import { useFetchTags } from "../../utils/useFetchTags";
@@ -13,6 +13,7 @@ export default function ProductoForm({ id, onEnvio }) {
     register,
     handleSubmit,
     setValue,
+    control,
     watch,
     formState: { errors },
   } = useForm({
@@ -21,7 +22,7 @@ export default function ProductoForm({ id, onEnvio }) {
       description: "",
       price: 0,
       category_id: "",
-      tags_ids: [],
+      tag_ids: [],
     },
   });
 
@@ -34,7 +35,7 @@ export default function ProductoForm({ id, onEnvio }) {
       setValue("description", producto.description || "");
       setValue("price", producto.price || 0);
       setValue("category_id", producto.category_id || "");
-      setValue("tags_ids", producto.tags?.map((t) => t.id) || []);
+      setValue("tag_ids", producto.tags?.map((t) => t.id) || []);
     }
   }, [producto, setValue]);
 
@@ -51,13 +52,14 @@ export default function ProductoForm({ id, onEnvio }) {
 
   // envio del formulario
   const onSubmit = (data) => {
+    const selectedTags = data.tag_ids ? [].concat(data.tag_ids) : [];
     const body = {
       title: data.title,
       description: data.description,
       price: Number(data.price),
       category_id: Number(data.category_id),
-      tags_ids: data.tags_ids.map(Number),
-      pictures: Array.from(data.pictures || []).map((file) => file),
+      tag_ids: selectedTags.map(Number),
+      pictures: Array.from(data.pictures || []),
     };
     onEnvio(body);
   };
@@ -131,24 +133,44 @@ export default function ProductoForm({ id, onEnvio }) {
           {errors.category_id && <span>{errors.category_id.message}</span>}
         </div>
 
-        {/* Tags */}
+        {/* Tags con Controller */}
         <div>
           <label className="block text-sm font-semibold mb-2">Tags</label>
           <div className="flex flex-wrap gap-3">
-            {tags?.map((tag) => (
-              <label
-                key={tag.id}
-                className="flex items-center gap-2 px-3 py-1 rounded-md bg-gray-800 border border-gray-700 cursor-pointer hover:bg-gray-700"
-              >
-                <input
-                  type="checkbox"
-                  value={tag.id}
-                  {...register("tags_ids")}
-                  className="accent-indigo-500"
-                />
-                {tag.title}
-              </label>
-            ))}
+            <Controller
+              name="tag_ids"
+              control={control}
+              render={({ field }) => (
+                <>
+                  {tags?.map((tag) => {
+                    const checked = field.value?.includes(tag.id);
+                    return (
+                      <label
+                        key={tag.id}
+                        className="flex items-center gap-2 px-3 py-1 rounded-md bg-gray-800 border border-gray-700 cursor-pointer hover:bg-gray-700"
+                      >
+                        <input
+                          type="checkbox"
+                          value={tag.id}
+                          checked={checked}
+                          onChange={(e) => {
+                            if (e.target.checked) {
+                              field.onChange([...field.value, tag.id]);
+                            } else {
+                              field.onChange(
+                                field.value.filter((tid) => tid !== tag.id)
+                              );
+                            }
+                          }}
+                          className="h-4 w-4"
+                        />
+                        {tag.title}
+                      </label>
+                    );
+                  })}
+                </>
+              )}
+            />
           </div>
         </div>
 
