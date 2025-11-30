@@ -1,11 +1,18 @@
 import { useState } from "react";
 import FilaCategorias from "./FilaCategorias";
 import { ModalCategorias } from "../ModalCategorias";
-export default function TablaCategorias({ categorias }) {
+import { ModalDeleteCategorias } from "../ModalDeleteCategorias";
+export default function TablaCategorias({ categorias , onChange}) {
  
 
   //Mostrar o no modal
   const [showModal, setShowModal] = useState(false);
+
+  //Mostrar modal de borrar
+  const [showModalDelete, setShowModalDelete] = useState(false);
+  //Categoria a borrar
+   const [categoriaABorrar, setCategoriaABorrar] = useState(false);
+ 
 
   //Estado para saber si se esta editando o creando para manejar el evento como corresponda
   const [editing, setEditing] = useState(null);
@@ -40,9 +47,16 @@ export default function TablaCategorias({ categorias }) {
 
     setShowModal(true);
   };
+  //Abrir Borrar:
+  const openModalDelete = (categoria) =>{
+      setCategoriaABorrar(categoria);
+      setShowModalDelete(true);
+  }
 
   //Cerrar modal
   const closeModal = () => {setShowModal(false)};
+  //Cerrar modal borrar
+  const closeModalDelete = () => {setShowModalDelete(false)}
 
   //Mantener sincronizado
   const handleChange = (e) => {
@@ -54,11 +68,90 @@ export default function TablaCategorias({ categorias }) {
       setForm({ ...form, [name]: value });
     }
   };
+
   //Submits
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form enviado:", form);
-    closeModal();
+
+    try {
+      let categoryId = editing?.id;
+
+      //Editar
+      if (editing) {
+        await fetch(`http://161.35.104.211:8000/categories/${categoryId}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            accept: "application/json",
+            Authorization: "Bearer elias",
+          },
+          body: JSON.stringify({
+            title: form.title,
+            description: form.description,
+          }),
+        });
+      }
+
+      //Crear
+      else {
+        const res = await fetch("http://161.35.104.211:8000/categories/", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            accept: "application/json",
+            Authorization: "Bearer elias",
+          },
+          body: JSON.stringify({
+            title: form.title,
+            description: form.description,
+          }),
+        });
+
+        const data = await res.json();
+        categoryId = data.id; // id de la respuesta, para poder asignar imagen,si es que hay
+      }
+
+      // Subir imagen
+      if (form.picture instanceof File) {
+        const fd = new FormData();
+        fd.append("file", form.picture);
+
+        await fetch(
+          `http://161.35.104.211:8000/categories/${categoryId}/picture`,
+          {
+            method: "POST",
+             headers: {
+               Authorization: "Bearer elias",
+          },
+            body: fd,
+          }
+        );
+      }
+      
+      console.log("Correcto");
+
+      closeModal();
+    } catch (error) {
+      console.error("Error al guardar la categoría:", error);
+    }
+  };
+  //Handle de borrado
+  const handleDelete = async (categoria) => {
+    try {
+      await fetch(`http://161.35.104.211:8000/categories/${categoria.id}`, {
+        method: "DELETE",
+        headers: {
+          accept: "application/json",
+          Authorization: "Bearer elias",
+        },
+      });
+
+      console.log("Eliminado correctamente");
+       props.onChange();  
+      closeModalDelete();
+    } catch (err) {
+      console.error("Error al eliminar:", err);
+    }
   };
 
   return (
@@ -102,7 +195,7 @@ export default function TablaCategorias({ categorias }) {
                   </button>
                   <button
                     className="px-3 py-1 bg-red-600 hover:bg-red-700 text-white rounded"
-                    onClick={() => alert(`Eliminar ${categoria.title}`)}
+                    onClick={() => openModalDelete(categoria)}
                   >
                     Eliminar
                   </button>
@@ -126,7 +219,11 @@ export default function TablaCategorias({ categorias }) {
 
             <tbody>
               {categorias.map((categoria) => (
-                <FilaCategorias key={categoria.id} categoria={categoria} openModalEdit={openModalEdit }/>
+                <FilaCategorias 
+                    key={categoria.id} 
+                    categoria={categoria} 
+                    openModalEdit={openModalEdit} 
+                    openModalDelete={openModalDelete}/>
               ))}
             </tbody>
           </table>
@@ -136,6 +233,14 @@ export default function TablaCategorias({ categorias }) {
         {/* Modal */}
         {showModal && ( 
           <ModalCategorias form={form} handleChange={handleChange} handleSubmit={handleSubmit} closeModal={closeModal} editing={editing}/>
+        )}
+         {/* Modal de borrar*/}
+        {showModalDelete && (
+          <ModalDeleteCategorias
+            closeModalDelete={closeModalDelete}
+            categoriaABorrar={categoriaABorrar}
+            handleDelete ={handleDelete }
+          />
         )}
     </section>
     </>

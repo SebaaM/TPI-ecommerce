@@ -1,4 +1,4 @@
-export default function FilaCategorias({ categoria, openModalEdit }) {
+export default function FilaCategorias({ categoria, openModalEdit, openModalDelete}) {
   return (
           <tr
                   key={categoria.id}
@@ -28,7 +28,7 @@ export default function FilaCategorias({ categoria, openModalEdit }) {
 
                     <button
                       className="px-3 py-1 bg-red-600 hover:bg-red-700 text-white rounded"
-                      onClick={() => alert(`Eliminar ${categoria.title}`)}
+                      onClick={() => openModalDelete(categoria)}
                     >
                       Eliminar
                     </button>

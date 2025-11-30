@@ -109,7 +109,7 @@ export default function AdminProductos() {
          {!abmProductos && (
           <>
                 <h1 className="text-2xl">Lista Categorias</h1>
-                <TablaCategorias categorias={categoriasFiltrado}/>
+                <TablaCategorias categorias={categoriasFiltrado}  onChange={useFetchCategoria} />
 
           </>
          )}
