@@ -8,6 +8,7 @@ export default function ProductoForm({ id, onEnvio }) {
   const { data: producto } = useFetchProduct(id);
   const { data: categorias } = useFetchCategoria();
   const { data: tags } = useFetchTags();
+  const API_URL = import.meta.env.VITE_API_URL;
 
   const {
     register,
@@ -35,6 +36,9 @@ export default function ProductoForm({ id, onEnvio }) {
       setValue("price", producto.price || 0);
       setValue("category_id", producto.category_id || "");
       setValue("tag_ids", producto.tags?.map((t) => t.id) || []);
+      if (producto.pictures && producto.pictures.length > 0) {
+        setPreviewImages(producto.pictures.map((p) => API_URL + p)); // array de strings con URLs
+      }
     }
   }, [producto, setValue]);
 
