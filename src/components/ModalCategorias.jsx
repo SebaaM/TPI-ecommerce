@@ -39,11 +39,16 @@ export const ModalCategorias = ({form, handleChange, handleSubmit, closeModal, e
                  
                 <label className="block mb-1 text-white text-sm">Imagen Actual</label>
                 <div className="px-4 py-3">
+                    {(form.picturePreview || form.picture) && (
                     <img
-                      src={`http://161.35.104.211:8000${form.picture}`}
-                      className="w-14 h-14 object-cover rounded"
-                      alt={form.title}
+                        src={form.picturePreview
+                              ? form.picturePreview
+                              : `http://161.35.104.211:8000${form.picture}`
+                          }
+                        className="w-14 h-14 object-cover rounded"
+                        alt={form.title}
                     />
+                      )}
                 </div>
                 <input
                   type="file"

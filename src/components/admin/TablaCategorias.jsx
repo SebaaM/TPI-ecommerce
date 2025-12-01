@@ -57,6 +57,7 @@ export default function TablaCategorias({searchCat ,setSearchCat}) {
     title: "",
     description: "",
     picture:  null,
+    picturePreview: null,
   });
 
   //Abrir crear categoria
@@ -66,6 +67,7 @@ export default function TablaCategorias({searchCat ,setSearchCat}) {
       title: "",
       description: "",
       picture:  null,
+      picturePreview: null,
     });
     setShowModal(true);
   };
@@ -78,6 +80,7 @@ export default function TablaCategorias({searchCat ,setSearchCat}) {
       title: categoria.title,
       description: categoria.description,
       picture: categoria.picture,
+      picturePreview: null,
     });
 
     setShowModal(true);
@@ -95,19 +98,42 @@ export default function TablaCategorias({searchCat ,setSearchCat}) {
 
   //Mantener sincronizado
   const handleChange = (e) => {
-    const { name, value, files } = e.target;
+  const { name, value, files } = e.target;
 
-    if (files) {
-      setForm({ ...form, [name]: files[0] });
-    } else {
-      setForm({ ...form, [name]: value });
+    if (name === "picture" && files?.length > 0) {
+      const file = files[0];
+      //agregar previews
+      setForm({
+        ...form,
+        picture: file,
+        picturePreview: URL.createObjectURL(file),
+      });
+      return;
     }
+    setForm({
+      ...form,
+      [name]: value,
+    });
   };
 
   //Submits
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    //chequeo si esta vacio el titulo
+    if (!form.title.trim()) {
+      alert("El título es obligatorio");
+      return;
+    }
+    //chequeo si esta vacia la descripcion
+    if (!form.description.trim()) {
+      alert("La descripción es obligatoria");
+      return;
+    }
+    //chequeo si hay una imagen
+    if (!editing && !form.picture) {
+      alert("Se necesita un imagen de forma obligatoria");
+      return;
+    }
     try {
       let categoryId = editing?.id;
 
