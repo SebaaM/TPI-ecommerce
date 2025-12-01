@@ -1,5 +1,4 @@
 import { Catalogo } from "../components/Catalogo";
-import Footer from "../components/genericos/Footer";
 
 function Productos() {
   return (
@@ -8,7 +7,6 @@ function Productos() {
         apiUrl={"http://161.35.104.211:8000/products/"}
         apiToken={"elias"}
       ></Catalogo>
-      <Footer />
     </div>
   );
 }

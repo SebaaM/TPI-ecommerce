@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
 import Ficha from "./Ficha";
-
-export const ProductList = ({ apiUrl, apiToken, searchInput }) => {
+import Loader from "./genericos/Loader";
+export const ProductList = ({ apiUrl, apiToken, searchInput,loading, setLoading}) => {
   const [productos, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function getProds() {
@@ -26,18 +25,23 @@ export const ProductList = ({ apiUrl, apiToken, searchInput }) => {
     getProds();
   }, [apiUrl, apiToken]);
 
-  if (loading) return <p className="text-white p-4">Cargando productos...</p>;
-
   // Filtrado
   const productosFiltrados = productos.filter((p) =>
     p.title.toLowerCase().includes(searchInput.toLowerCase())
   );
 
   return (
-    <div
-  id="productosHome"
-  className="mt-8 -mx-px grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 w-full justify-items-center"
->
+    <>
+        
+         {/* No esta cargando pero no hay productos*/}
+        {!loading && (!productos || productos.length === 0) && (
+        <div className="text-white py-10"> No hay productos disponibles</div>
+        )}
+
+        <div
+          id="productosHome"
+          className="mt-8 -mx-px grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 w-full justify-items-center"
+        >
 
       {productosFiltrados.length > 0 ? (
         productosFiltrados.map((producto, i) => (
@@ -56,5 +60,6 @@ export const ProductList = ({ apiUrl, apiToken, searchInput }) => {
         </div>
       )}
     </div>
+    </>
   );
 };

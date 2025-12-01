@@ -4,8 +4,7 @@ import CategoriaLanding from "../components/landing/CategoriaLanding";
 import Carousel from "../components/landing/Carousel";
 import Navbar from "../components/Navbar";
 import Footer from "../components/genericos/Footer";
-import { useState } from "react";
-import ResultadosBusqueda from "../components/ResultadosBusqueda";
+import Loader from "../components/genericos/Loader";
 
 export default function LandingPage() {
   // Fetch de categorías
@@ -39,7 +38,10 @@ export default function LandingPage() {
       }
        {/* Cargando */}
         {(loadingCategories || loadingProducts)&& (
-           <div className="h-[600px] w-full bg-gray-950 animate-pulse rounded-xl">Cargando...</div>
+          <>
+            <div className="h-[600px] w-full bg-gray-950 animate-pulse rounded-xl"></div>
+            <Loader/>
+           </>
         )}
         {/* No esta cargando pero no hay productos*/}
           {!(loadingCategories || loadingProducts) && (!products || products.length === 0) && (

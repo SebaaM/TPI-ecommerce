@@ -2,7 +2,7 @@ import { useFetchCategoria } from "../utils/useFetchCategoria";
 import CategoriaCard from "../components/categoriaComponent/CategoriaCard";
 import Navbar from "../components/Navbar";
 import Footer from "../components/genericos/Footer";
-
+import Loader from "../components/genericos/Loader";
 function Categorias() {
   const { data: categorias, loading, error } = useFetchCategoria();
  
@@ -20,7 +20,7 @@ function Categorias() {
       }
       {/* Cargando */}
       {loading && (
-          <div>Cargando categorías...</div>
+          <Loader/>
         )}
 
       {/* No esta cargando pero no hay categorias*/}
@@ -48,7 +48,9 @@ function Categorias() {
         
       </div>
     </div>
-    <Footer />
+      <div className="w-full z-30 relative mt-8">
+          <Footer />
+      </div>
     </>
   );
 }
