@@ -1,5 +1,4 @@
 import { Routes, Route } from "react-router-dom";
-import Home from "../pages/Home";
 import NotFound from "../pages/NotFound";
 import Productos from "../pages/Productos";
 import Categorias from "../pages/Categorias";
@@ -8,6 +7,7 @@ import ProductPage from "../pages/ProductPage";
 import LandingPage from "../pages/Landing";
 import AdminProductos from "../pages/Admin";
 import PageFormulario from "../pages/Formulario";
+import ContactoPage from "../pages/ContactoPage";
 
 function App() {
   return (
@@ -20,6 +20,7 @@ function App() {
       <Route path="/admin" element={<AdminProductos />} />
       <Route path="/admin/crearProducto" element={<PageFormulario />} />
       <Route path="/admin/editarProducto/:id" element={<PageFormulario />} />
+      <Route path="/contacto" element={<ContactoPage />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
