@@ -12,7 +12,7 @@ export function useFetch(url, options = {}) {
       setLoading(true);
       try {
         // Delay simula 2 segundos en responder
-        const response = await fetch(url + "?delay=2", options);
+        const response = await fetch(url, options);
 
         if (!response.ok) {
           throw new Error("Error en la respuesta del servidor");

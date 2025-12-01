@@ -4,7 +4,10 @@ import { SearchBar } from "../components/SearchBar";
 import TablaProducto from "../components/admin/TablaProducto";
 import NavBar from "../components/Navbar";
 import Footer from "../components/genericos/Footer";
-import TablaCategorias from "../components/admin/TablaCategorias";
+import TablaCategorias from "../components/admin/TablaCategorias";import { Link } from "react-router-dom";
+
+const API_URL = import.meta.env.VITE_API_URL;
+
 export default function AdminProductos() {
 
   //estado de barra de busqueda de productos en la tabla
@@ -15,6 +18,13 @@ export default function AdminProductos() {
 
   //fetch de productos
   const { data: productos, loading, error } = useFetchProductos();
+  const [productosState, setProductosState] = useState([]);
+
+  useEffect(() => {
+    if (productos) {
+      setProductosState(productos);
+    }
+  }, [productos]);
 
   //fetch de categorias
   const [categorias, setCategorias] = useState([]);
@@ -62,11 +72,21 @@ export default function AdminProductos() {
       categoria.title.toLowerCase().includes(searchCat.toLowerCase())
     ) || [];
 
-  //Filtrado por titulo usando el valor de la barra de busqueda
-  const juegosFiltrado =
-    productos?.filter((juego) =>
-      juego.title.toLowerCase().includes(search.toLowerCase())
-    ) || [];
+
+   useEffect(() => {
+    fetchCategorias();
+  }, []);
+
+  //mostrar productos y reiniciar input de busqueda
+  function mostrarProductos(){
+    setSearch("")
+    setAbm(true) 
+  }
+  //mostrar categorias y reiniciar input de busqueda
+  function mostrarCategorias(){
+    setSearchCat("")
+    setAbm(false)
+  }
 
   if (error) {
     return (
@@ -83,12 +103,37 @@ export default function AdminProductos() {
   if (!productos) {
     return <p className="text-white p-4">No se encontraron productos</p>;
   }
- 
+
+  let juegosFiltrado =
+    productosState?.filter((juego) =>
+      juego.title.toLowerCase().includes(search.toLowerCase())
+    ) || [];
+
+  // Manejo de delete
+  const handleDelete = async (id) => {
+    const res = await fetch(`${API_URL}/products/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: "Bearer elias",
+      },
+    });
+    if (res.ok) {
+      setProductosState((prev) => prev.filter((juego) => juego.id !== id));
+    } else {
+      console.error("Error al eliminar el producto");
+    }
+  };
 
   return (
     <>
       <NavBar />
       <div className="pt-20 px-10 bg-[#1b1d1f] min-h-screen text-white">
+        <div className=" flex justify-between  font-bold text-white mb-4">
+          <SearchBar value={search} onChange={setSearch} />
+          <h1 className="text-2xl">Lista Productos</h1>
+          <button className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded shadow">
+            <Link to="/admin/crearProducto">+ Agregar videojuego</Link>
+          </button>
         <div className="mt-12 md:mt-1 flex justify-between  font-bold text-white mb-4">
 
            <button
@@ -105,7 +150,7 @@ export default function AdminProductos() {
             Administrar categorias
           </button>
 
-     </div>
+        </div>
         {/* Listado de productos */}
          {abmProductos && (
           <>
@@ -127,7 +172,7 @@ export default function AdminProductos() {
                         </button>
                                   <SearchBar value={search} onChange={setSearch} />
                   </div>
-                <TablaProducto productos={juegosFiltrado} />
+                <TablaProducto productos={juegosFiltrado} onDelete={handleDelete} />
           </>
           )}
         {/* Listado de categorias */}
@@ -139,7 +184,8 @@ export default function AdminProductos() {
                       recargarCategorias={recargarCategorias}
                  />
          )}
-  </div>
+    </div>
+    </div>
       <Footer />
     </>
   );
