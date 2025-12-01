@@ -20,11 +20,11 @@ export const Catalogo = ({ apiUrl, apiToken }) => {
                         w-full min-h-screen overflow-x-hidden 
                         items-center my-8 pt-16 md:pt-4 pb-0
                         ${loading ? "" : "pl-4 pr-4"}
-      `}>
+                    `}>
       <Navbar />
         {/* Cargando */}
         {(loading)&& (
-            <div className="fixed inset-0 flex items-center justify-center bg-gray-900">
+            <div className="">
                 <Loader/>
             </div>
         )}

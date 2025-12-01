@@ -1,9 +1,8 @@
-import React from 'react';
 import styled from 'styled-components';
 
 const Loader = () => {
   return (
-     <div className="fixed inset-0 flex items-center justify-center">
+     <div className="fixed inset-0 flex items-center justify-center animate-pulse">
     <StyledWrapper>
       <div id="ghost">
         <div id="red">

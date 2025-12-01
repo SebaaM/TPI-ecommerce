@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import Ficha from "./Ficha";
-import Loader from "./genericos/Loader";
 export const ProductList = ({ apiUrl, apiToken, searchInput,loading, setLoading}) => {
   const [productos, setProducts] = useState([]);
 
@@ -43,7 +42,7 @@ export const ProductList = ({ apiUrl, apiToken, searchInput,loading, setLoading}
           className="mt-8 -mx-px grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 w-full justify-items-center"
         >
 
-      {productosFiltrados.length > 0 ? (
+      {!loading && productosFiltrados.length > 0 && (
         productosFiltrados.map((producto, i) => (
           <Ficha
             key={i}
@@ -54,11 +53,13 @@ export const ProductList = ({ apiUrl, apiToken, searchInput,loading, setLoading}
             price={producto.price}
           />
         ))
-      ) : (
-        <div className="col-span-full text-gray-400 py-10">
+      )} 
+      {!loading && productosFiltrados.length === 0 && (
+             <div className="col-span-full text-gray-400 py-10">
           No hay productos con ese nombre.
         </div>
-      )}
+      )
+      }
     </div>
     </>
   );

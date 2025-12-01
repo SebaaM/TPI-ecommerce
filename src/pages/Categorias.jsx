@@ -5,11 +5,6 @@ import Footer from "../components/genericos/Footer";
 import Loader from "../components/genericos/Loader";
 function Categorias() {
   const { data: categorias, loading, error } = useFetchCategoria();
- 
-
-  //movido hacia abajo de nav bar para que puedan renderizar aunque este en "loading"
-  //if (loading) return <div>Cargando categorias...</div>;
-  //if (error) return <div>Error: {error}</div>;
 
   return (
     <>

@@ -38,10 +38,14 @@ export default function LandingPage() {
       }
        {/* Cargando */}
         {(loadingCategories || loadingProducts)&& (
-          <>
-            <div className="h-[600px] w-full bg-gray-950 animate-pulse rounded-xl"></div>
+            <div
+            className="w-full bg-gray-950 animate-pulse flex justify-center items-center"
+            style={{
+              minHeight: "calc(100vh - 96px)",
+            }}
+            >
             <Loader/>
-           </>
+            </div>
         )}
         {/* No esta cargando pero no hay productos*/}
           {!(loadingCategories || loadingProducts) && (!products || products.length === 0) && (

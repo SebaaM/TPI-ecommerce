@@ -3,6 +3,7 @@ import { useFetchProductos } from "../../utils/useFetchProductos";
 import Ficha from "../Ficha";
 import Navbar from "../Navbar";
 import Footer from "../genericos/Footer";
+import Loader from "../genericos/Loader";
 function CategoriaFilter() {
   const id = useParams().id;
   const { data: productos, loading, error } = useFetchProductos();
@@ -23,7 +24,9 @@ function CategoriaFilter() {
       }
        {/* Cargando */}
         {loading && (
-          <div className="text-white py-10">Cargando categorías...</div>
+          <div className="w-full bg-gray-950 animate-pulse">
+               <Loader/>
+          </div>
         )}
         {/* No esta cargando pero no hay productos*/}
           {!loading && (!productos || productos.length === 0) && (
