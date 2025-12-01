@@ -114,16 +114,21 @@ export default function ProductoForm({ id, onEnvio }) {
             <label className="block text-sm md:text-xl font-semibold mb-2">
               Precio
             </label>
-            <input
-              type="number"
-              {...register("price", {
-                required: "El precio es obligatorio",
-                valueAsNumber: true,
-                min: 0,
-              })}
-              placeholder="Precio..."
-              className="w-full px-4 py-2 rounded-md bg-gray-800 border border-gray-700 focus:ring-2 focus:ring-indigo-500"
-            />
+            <div className="relative">
+              <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
+                USD
+              </span>
+              <input
+                type="number"
+                {...register("price", {
+                  required: "El precio es obligatorio",
+                  valueAsNumber: true,
+                  min: 0,
+                })}
+                placeholder="Precio..."
+                className="w-full pl-12 px-4 py-2 rounded-md bg-gray-800 border border-gray-700 focus:ring-2 focus:ring-indigo-500"
+              />
+            </div>
             {errors.price && (
               <span className="text-red-400">{errors.price.message}</span>
             )}
@@ -238,7 +243,7 @@ export default function ProductoForm({ id, onEnvio }) {
             {id ? "Actualizar producto" : "Crear producto"}
           </button>
           <Link
-            to="/admin/productos"
+            to="/admin"
             className="w-full md:w-auto px-6 py-3 rounded-md text-white font-semibold shadow-md transition bg-gray-500 hover:bg-gray-700 text-center"
           >
             Cancelar
