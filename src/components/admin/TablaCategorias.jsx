@@ -1,12 +1,45 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import FilaCategorias from "./FilaCategorias";
 import { ModalCategorias } from "../ModalCategorias";
 import { ModalDeleteCategorias } from "../ModalDeleteCategorias";
 import { SearchBar } from "../SearchBar";
 
-export default function TablaCategorias({searchCat,setSearchCat, categorias , recargarCategorias}) {
+export default function TablaCategorias({searchCat ,setSearchCat}) {
  
 
+  //fetch de categorias
+  const [categorias, setCategorias] = useState([]);
+
+  const fetchCategorias = async () => {
+    try {
+      const res = await fetch("http://161.35.104.211:8000/categories/", {
+        headers: {
+          accept: "application/json",
+          Authorization: "Bearer elias",
+        },
+      });
+      const data = await res.json();
+      setCategorias(data);
+    } catch (error) {
+      console.error("Error cargando categorías:", error);
+    }
+  };
+
+   useEffect(() => {
+    fetchCategorias();
+  }, []);
+
+  //para poder actualizar listado cuando se modifique la lista
+   const recargarCategorias = () => {
+    fetchCategorias();
+  };
+   //Filtrado por categoria usando el valor de la barra de busqueda
+  const categoriasFiltrado =
+    categorias?.filter((categoria) =>
+      categoria.title.toLowerCase().includes(searchCat.toLowerCase())
+    ) || [];
+
+    
   //Mostrar o no modal
   const [showModal, setShowModal] = useState(false);
 
@@ -181,7 +214,7 @@ export default function TablaCategorias({searchCat,setSearchCat, categorias , re
       <div className="mx-auto max-w-7xl">
         {/* Estilo en movil */}
         <div className="flex flex-col gap-3 md:hidden">
-          {categorias.map((categoria) => (
+          {categoriasFiltrado.map((categoria) => (
             <div
               key={categoria.id}
               className="bg-gray-800 p-4 rounded-lg border border-gray-700 flex gap-4 items-start"
@@ -233,7 +266,7 @@ export default function TablaCategorias({searchCat,setSearchCat, categorias , re
             </thead>
 
             <tbody>
-              {categorias.map((categoria) => (
+              {categoriasFiltrado.map((categoria) => (
                 <FilaCategorias 
                     key={categoria.id} 
                     categoria={categoria} 
