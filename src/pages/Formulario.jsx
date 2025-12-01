@@ -1,5 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom";
 import ProductoForm from "../components/formularios/ProductoForm";
+import Navbar from "../components/Navbar";
+import Footer from "../components/genericos/Footer";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -75,8 +77,12 @@ export default function PageFormulario() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-8">
-      <ProductoForm id={id} onEnvio={handleSubmit} />
-    </div>
+    <>
+      <Navbar />
+      <div className="min-h-screen bg-indigo-950  text-white py-25 p-8">
+        <ProductoForm id={id} onEnvio={handleSubmit} />
+      </div>
+      <Footer />
+    </>
   );
 }
