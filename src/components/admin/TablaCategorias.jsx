@@ -2,7 +2,9 @@ import { useState } from "react";
 import FilaCategorias from "./FilaCategorias";
 import { ModalCategorias } from "../ModalCategorias";
 import { ModalDeleteCategorias } from "../ModalDeleteCategorias";
-export default function TablaCategorias({ categorias , onChange}) {
+import { SearchBar } from "../SearchBar";
+
+export default function TablaCategorias({searchCat,setSearchCat, categorias , recargarCategorias}) {
  
 
   //Mostrar o no modal
@@ -90,6 +92,7 @@ export default function TablaCategorias({ categorias , onChange}) {
             description: form.description,
           }),
         });
+        recargarCategorias()
       }
 
       //Crear
@@ -109,6 +112,7 @@ export default function TablaCategorias({ categorias , onChange}) {
 
         const data = await res.json();
         categoryId = data.id; // id de la respuesta, para poder asignar imagen,si es que hay
+        recargarCategorias()
       }
 
       // Subir imagen
@@ -126,9 +130,8 @@ export default function TablaCategorias({ categorias , onChange}) {
             body: fd,
           }
         );
+        recargarCategorias()
       }
-      
-      console.log("Correcto");
 
       closeModal();
     } catch (error) {
@@ -144,24 +147,36 @@ export default function TablaCategorias({ categorias , onChange}) {
           accept: "application/json",
           Authorization: "Bearer elias",
         },
-      });
-
-      console.log("Eliminado correctamente");
-       props.onChange();  
+      }); 
       closeModalDelete();
     } catch (err) {
       console.error("Error al eliminar:", err);
     }
+    recargarCategorias()
   };
 
   return (
     <>
-    <button
-            className="px-4 py-2 mb-2 bg-blue-600 hover:bg-blue-700 text-white rounded shadow"
+     <h1 className="text-2xl mb-2">Lista Categorias</h1>
+     <div className="flex justify-between">              
+           {/* Busqueda en tabla de categorias */}
+
+          <button
+            className="hidden md:block px-4 py-2 mb-2 bg-blue-600 hover:bg-blue-700 text-white rounded shadow text-base font-bold"
             onClick={openModalNew}
           >
-        + Agregar categoría
-    </button>
+              + Agregar categoría
+          </button>
+          <button
+            className="block md:hidden px-4 py-2 mb-2 bg-blue-600 hover:bg-blue-700 text-white rounded shadow text-base font-bold"
+            onClick={openModalNew}
+          >
+              +Categoría
+          </button>
+                    <SearchBar value={searchCat} onChange={setSearchCat} />
+      </div>
+
+    
     <section className="w-full bg-gray-900">
       <div className="mx-auto max-w-7xl">
         {/* Estilo en movil */}

@@ -1,21 +1,11 @@
 import { useParams } from "react-router-dom";
-import { useFetchCategoria } from "../../utils/useFetchCategoria";
 import { useFetchProductos } from "../../utils/useFetchProductos";
 import Ficha from "../Ficha";
-import { useEffect, useState } from "react";
 import Navbar from "../Navbar";
 import Footer from "../genericos/Footer";
-import ResultadosBusqueda from "../ResultadosBusqueda";
 function CategoriaFilter() {
   const id = useParams().id;
   const { data: productos, loading, error } = useFetchProductos();
-
-  const [searchInput, setSearchInput] = useState("");
-  //movido hacia abajo de nav bar para que puedan renderizar aunque este en "loading"
-  //if (loading) return <div>Cargando productos...</div>;
-  //if (error) return <div>Error: {error}</div>;
-
-
   
   //Filtrado por categoria
   const productosFiltrados = productos
@@ -23,23 +13,11 @@ function CategoriaFilter() {
 
 
 
-    // filtrado de productos para sugerencias
-    const searchResults = searchInput.length
-      ? productos.filter(p => 
-          p.title.toLowerCase().includes(searchInput.toLowerCase())
-        )
-      : [];
-
-
   return (
     <>
     <div className="pt-24 md:pt-12 px-4 bg-gray-800 min-h-screen w-full">
-      <Navbar value={searchInput} onChange={setSearchInput}/>
-      {searchInput && (
-            <ResultadosBusqueda 
-                searchResults={searchResults}
-            />
-            )}
+      <Navbar />
+
       {/* Si hay un error */}
       { error && (<div>Error: {error}</div>)
       }

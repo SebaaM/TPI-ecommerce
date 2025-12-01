@@ -2,7 +2,8 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { CartContext } from "../context/cart";
 import { useContext } from "react";
-
+import { useFetchProductos } from "../utils/useFetchProductos";
+import ResultadosBusqueda from "./ResultadosBusqueda";
 import {
   Disclosure,
   DisclosureButton,
@@ -31,7 +32,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function Navbar({ value, onChange }) {
+export default function Navbar() {
   const [open, setOpen] = useState(false);
   const { getCartQuantity } = useContext(CartContext);
 
@@ -44,6 +45,30 @@ export default function Navbar({ value, onChange }) {
   const categoriasNombre = Array.isArray(categorias)
     ? categorias.map((cat) => cat.title)
     : [];
+
+  
+
+    //usado en nav Bar y barra de busqueda
+    const [searchInput, setSearchInput] = useState("");
+
+    // Fetch de productos
+    const {
+      data: products,
+      loading: loadingProducts,
+      error: errorProducts,
+    } = useFetchProductos();
+  
+
+    
+
+    // filtrado de productos para sugerencias
+    const searchResults = searchInput.length > 0
+      ? products.filter(p => 
+          p.title.toLowerCase().includes(searchInput.toLowerCase())
+        )
+      : [];
+
+
 
   return (
     <>
@@ -136,7 +161,7 @@ export default function Navbar({ value, onChange }) {
             <div className="flex items-center gap-3 relative overflow-visible">
               {/*Barra de busqueda, se muestra solo en modo desktop*/}
               <div className="hidden md:block">
-                <SearchBar value={value} onChange={onChange} />
+                <SearchBar value={searchInput} onChange={setSearchInput} />
               </div>
 
               {/* Carrito */}
@@ -257,9 +282,14 @@ export default function Navbar({ value, onChange }) {
         </DisclosurePanel>
         {/* SearchBar móvil */}
         <div className="block md:hidden px-4 pb-3">
-          <SearchBar value={value} onChange={onChange} />
+          <SearchBar value={searchInput} onChange={setSearchInput} />
         </div>
       </Disclosure>
+      {searchInput && (
+            <ResultadosBusqueda 
+                searchResults={searchResults}
+            />
+      )}
 
       <CartModal open={open} setOpen={setOpen} />
     </>

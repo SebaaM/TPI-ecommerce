@@ -28,28 +28,12 @@ export default function LandingPage() {
       )
     : [];
 
-    //usado en nav Bar y barra de busqueda
-    const [searchInput, setSearchInput] = useState("");
-
-
-    // filtrado de productos para sugerencias
-    const searchResults = searchInput.length > 0
-      ? products.filter(p => 
-          p.title.toLowerCase().includes(searchInput.toLowerCase())
-        )
-      : [];
-
 
 
   return (
     <div>
-      <Navbar value={searchInput} onChange={setSearchInput} />
-      {/* Componente que muestra resultados de la busqueda */}
-     {searchInput && (
-      <ResultadosBusqueda 
-          searchResults={searchResults}
-      />
-      )}
+      <Navbar />
+    
        {/* Si hay un error */}
       { (errorCategories || errorProducts ) && (<div>Error al cargar datos</div>)
       }
