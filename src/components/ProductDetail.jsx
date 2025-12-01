@@ -29,12 +29,7 @@ export default function ProductDetail() {
 
             {/* Cargando */}
             {loading && (
-               <div
-                className="w-full animate-pulse flex justify-center items-center"
-                style={{
-                  minHeight: "calc(100vh - 96px)",
-                }}
-                >
+              <div  className="min-h-screen">
                   <Loader/>
               </div>
             )}

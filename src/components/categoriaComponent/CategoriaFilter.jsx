@@ -24,38 +24,33 @@ function CategoriaFilter() {
       }
        {/* Cargando */}
         {loading && (
-          <div className="w-full bg-gray-950 animate-pulse">
+          <div className="animate-pulse">
                <Loader/>
           </div>
         )}
         {/* No esta cargando pero no hay productos*/}
-        {!loading && (!productos || productos.length === 0) && (
-          <div className="text-white py-10">
-            {" "}
+        {!loading && (productosFiltrados.length === 0) && (
+          <div className="w-full flex justify-center items-center text-gray-400 py-10 text-lg">
             No hay productos en esta categoría
           </div>
         )}
-        {/* No esta cargando y hay productos */}
-        {!loading && productos && productos.length > 0 && (
-          <div className="mt-8 -mx-20px grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 w-full justify-items-center">
-            {productosFiltrados.length > 0 ? (
-              productosFiltrados.map((producto, i) => (
-                <Ficha
-                  key={i}
-                  id={producto.id}
-                  pictures={`http://161.35.104.211:8000${producto.pictures[0]}`}
-                  titletitle={producto.title}
-                  description={producto.description}
-                  price={producto.price}
-                />
-              ))
-            ) : (
-              <div className="col-span-full text-gray-400 py-10">
-                No hay productos con ese nombre.
-              </div>
-            )}
+
+         <div className="mt-8 -mx-20px grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 w-full justify-items-center">
+
+            {/* No esta cargando y hay productos */}
+            {!loading && productos && productos.length > 0 && (
+                  productosFiltrados.map((producto, i) => (
+                    <Ficha
+                      key={i}
+                      id={producto.id}
+                      pictures={`http://161.35.104.211:8000${producto.pictures[0]}`}
+                      titletitle={producto.title}
+                      description={producto.description}
+                      price={producto.price}
+                    />
+                  ))
+             )}
           </div>
-        )}
       </div>
       <Footer />
     </>

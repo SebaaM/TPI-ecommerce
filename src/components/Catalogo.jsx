@@ -24,7 +24,7 @@ export const Catalogo = ({ apiUrl, apiToken }) => {
       <Navbar />
         {/* Cargando */}
         {(loading)&& (
-            <div className="">
+             <div  className="min-h-screen">
                 <Loader/>
             </div>
         )}

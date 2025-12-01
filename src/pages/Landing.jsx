@@ -38,11 +38,8 @@ export default function LandingPage() {
       }
        {/* Cargando */}
         {(loadingCategories || loadingProducts)&& (
-            <div
-            className="w-full bg-gray-950 animate-pulse flex justify-center items-center"
-            style={{
-              minHeight: "calc(100vh - 96px)",
-            }}
+            <div      
+            className="w-full bg-gray-950 animate-pulse min-h-screen"
             >
             <Loader/>
             </div>
@@ -57,7 +54,7 @@ export default function LandingPage() {
       <div className="bg-gray-950 text-white   px-6 py-20">
         <header className="text-center mb-12">
           <h1 className="sm:text-5xl text-4xl font-bold mb-2">
-            Bienvenidos a Ecommerce Gaming
+            Bienvenidos a Arcadia Store
           </h1>
           <p className="sm:text-lg text-md text-gray-400">
             Juegos increibles al mejor precio

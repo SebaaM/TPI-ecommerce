@@ -210,8 +210,8 @@ export default function TablaCategorias({searchCat ,setSearchCat}) {
       </div>
 
     
-    <section className="w-full bg-gray-900">
-      <div className="mx-auto max-w-7xl">
+    <section className="w-full">
+      <div className="mx-auto max-w-7xl bg-gray-900">
         {/* Estilo en movil */}
         <div className="flex flex-col gap-3 md:hidden">
           {categoriasFiltrado.map((categoria) => (

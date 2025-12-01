@@ -27,6 +27,7 @@ export const ProductList = ({ apiUrl, apiToken, searchInput,loading, setLoading}
   // Filtrado
   const productosFiltrados = productos.filter((p) =>
     p.title.toLowerCase().includes(searchInput.toLowerCase())
+
   );
 
   return (
@@ -34,7 +35,9 @@ export const ProductList = ({ apiUrl, apiToken, searchInput,loading, setLoading}
         
          {/* No esta cargando pero no hay productos*/}
         {!loading && (!productos || productos.length === 0) && (
-        <div className="text-white py-10"> No hay productos disponibles</div>
+        <div className="w-full flex justify-center items-center text-gray-400 py-10 text-lg"> 
+            No hay productos disponibles
+        </div>
         )}
 
         <div
@@ -44,6 +47,7 @@ export const ProductList = ({ apiUrl, apiToken, searchInput,loading, setLoading}
 
       {!loading && productosFiltrados.length > 0 && (
         productosFiltrados.map((producto, i) => (
+          
           <Ficha
             key={i}
             id={producto.id}
@@ -53,9 +57,10 @@ export const ProductList = ({ apiUrl, apiToken, searchInput,loading, setLoading}
             price={producto.price}
           />
         ))
+        
       )} 
       {!loading && productosFiltrados.length === 0 && (
-             <div className="col-span-full text-gray-400 py-10">
+             <div className="col-span-full text-gray-400 py-10 text-lg">
           No hay productos con ese nombre.
         </div>
       )

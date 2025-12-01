@@ -15,12 +15,15 @@ function Categorias() {
       }
       {/* Cargando */}
       {loading && (
-          <Loader/>
+           <div  className="min-h-screen">
+              <Loader/>
+           </div>
+         
         )}
 
       {/* No esta cargando pero no hay categorias*/}
       {!loading && (!categorias || categorias === "") && (
-      <div className="text-white py-10"> No hay productos en esta categoría</div>
+      <div className="text-white py-10"> No hay categorías disponibles.</div>
       )}
       <div className="mt-8 -mx-20px grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 w-full justify-items-center">
        {/* No esta cargando, no fue error, tengo categorias y tiene tamaño mayor a 0 */}

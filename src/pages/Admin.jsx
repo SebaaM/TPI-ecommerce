@@ -5,6 +5,7 @@ import TablaProducto from "../components/admin/TablaProducto";
 import NavBar from "../components/Navbar";
 import Footer from "../components/genericos/Footer";
 import TablaCategorias from "../components/admin/TablaCategorias";import { Link } from "react-router-dom";
+import LoaderAzul from "../components/genericos/LoaderAzul";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -41,18 +42,6 @@ export default function AdminProductos() {
     setAbm(false)
   }
 
-  if (error) {
-    return (
-      <p className="text-red-500 p-4">
-        Error al cargar productos: {error.message}
-      </p>
-    );
-  }
-
-  if (loading) {
-    return <p className="text-white p-4">Cargando productos...</p>;
-  }
-
   if (!productos) {
     return <p className="text-white p-4">No se encontraron productos</p>;
   }
@@ -79,18 +68,30 @@ export default function AdminProductos() {
 
   return (
     <>
+      <div className="min-h-screen">
       <NavBar />
-      <div className="pt-20 px-10 bg-[#1b1d1f] min-h-screen text-white">
-         
-        <div className="mt-12 md:mt-1 flex justify-between  font-bold text-white mb-4">
+       {/* Si hay un error */}
+      { error && (<div>Error: {error}</div>)
+      }
+      {/* Cargando */}
+      {loading && (
+         <div  className="min-h-screen">
+            <LoaderAzul/>
+        </div>
+          
+        )}
 
+      {!loading && (
+
+      <div className="pt-20 px-10 bg-[#1b1d1f] min-h-screen text-white">
+        <div className="mt-12 md:mt-1 flex justify-between  font-bold text-white mb-4">
            <button
             className="mr-1 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded shadow"
             onClick={() => mostrarProductos()}
           >
             Administrar productos
           </button>
-
+          
           <button
             className="ml-1 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded shadow"
             onClick={() => mostrarCategorias()}
@@ -114,12 +115,13 @@ export default function AdminProductos() {
           </>
           )}
 
-        {/* Listado de categorias */}
-         {!abmProductos && (    
-                <TablaCategorias searchCat={searchCat} setSearchCat={setSearchCat}/>
-         )}
-   
-    </div>
+          {/* Listado de categorias */}
+          {!abmProductos && (    
+                  <TablaCategorias searchCat={searchCat} setSearchCat={setSearchCat}/>
+          )}
+      </div>
+      )}
+      </div>
       <Footer />
     </>
   );
