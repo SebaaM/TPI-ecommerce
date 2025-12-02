@@ -217,13 +217,13 @@ export default function TablaCategorias({searchCat ,setSearchCat}) {
   };
 
   return (
-    <>
-     <h1 className="block md:hidden text-2xl mb-2 font-bold">Lista Categorias</h1>
+    <div className="mt-10">
+     <h1 className=" md:hidden text-2xl mb-2 font-bold flex justify-center">Lista Categorias</h1>
      <div className="flex justify-between">              
            {/* Busqueda en tabla de categorias */}
 
           <button
-            className="hidden md:block px-4 py-2 mb-2 bg-blue-600 hover:bg-blue-700 text-white rounded shadow text-base font-bold"
+            className="w-48 hidden md:block px-4 py-2 mb-2 bg-blue-600 hover:bg-blue-700 text-white rounded shadow text-base font-bold"
             onClick={openModalNew}
           >
               + Agregar categoría
@@ -264,15 +264,15 @@ export default function TablaCategorias({searchCat ,setSearchCat}) {
                   {categoria.description}
                 </p>
 
-                <div className="flex gap-2 mt-3">
+                <div className="flex justify-end gap-2">
                   <button
-                    className="px-3 py-1 bg-yellow-500 hover:bg-yellow-600 text-black rounded "
+                    className="w-24 px-3 py-1 bg-yellow-500 hover:bg-yellow-600 text-black rounded"
                     onClick={() => openModalEdit(categoria)}
                   >
                     Editar
                   </button>
                   <button
-                    className="px-3 py-1 bg-red-600 hover:bg-red-700 text-white rounded"
+                     className="w-24 px-3 py-1 bg-red-600 hover:bg-red-700 text-white rounded"
                     onClick={() => openModalDelete(categoria)}
                   >
                     Eliminar
@@ -321,6 +321,6 @@ export default function TablaCategorias({searchCat ,setSearchCat}) {
           />
         )}
     </section>
-    </>
+    </div>
   );
 }

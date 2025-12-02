@@ -163,13 +163,13 @@ export default function TablaTags({searchCat ,setSearchCat}) {
   };
 
   return (
-    <>
-     <h1 className="block md:hidden text-2xl mb-2 font-bold">Lista Tags</h1>
+    <div className="mt-10">
+     <h1 className="md:hidden text-2xl mb-2 font-bold flex justify-center">Lista Tags</h1>
      <div className="flex justify-between">              
            {/* Busqueda en tabla de tags */}
 
           <button
-            className="hidden md:block px-4 py-2 mb-2 bg-blue-600 hover:bg-blue-700 text-white rounded shadow text-base font-bold"
+            className="w-48 hidden md:block px-4 py-2 mb-2 bg-blue-600 hover:bg-blue-700 text-white rounded shadow text-base font-bold"
             onClick={openModalNew}
           >
               + Agregar tag
@@ -223,9 +223,9 @@ export default function TablaTags({searchCat ,setSearchCat}) {
         <div className="hidden md:block overflow-x-auto">
           <table className="min-w-full bg-gray-900 text-gray-200">
             <thead className="border border-gray-700 bg-gray-800 text-white">
-              <tr>
+              <tr className="grid grid-cols-[1fr_140px]">
                 <th className="px-4 py-2 text-left">Título</th>
-                <th className="px-4 py-2 text-center">Acciones</th>
+                <th className="px-4 py-2 text-center mr-20">Acciones</th>
               </tr>
             </thead>
 
@@ -233,27 +233,21 @@ export default function TablaTags({searchCat ,setSearchCat}) {
               {tagsFiltrado.map((tag) => (
                     <tr
                     key={tag.id}
-                    className="border border-gray-700 text-sm"
+                   className="grid grid-cols-[1fr_140px] items-center"
                     >
 
-                    <td className="px-4 py-3 text-base">{tag.title}</td>
-                    <td className="px-4 py-3 text-center">
-                        <div className="flex justify-end gap-2">
-                            <button
-                            className="w-24 px-3 py-1 bg-yellow-500 hover:bg-yellow-600 text-black rounded"
-                            onClick={() => openModalEdit(tag)}
-                            >
+                    <td className="px-4 py-3">{tag.title}</td>
+                    <td className="px-4 py-3">
+                      <div className="flex justify-end gap-2 sm:flex-row flex-col sm:space-y-0 space-y-2">
+                          <button className="w-24 px-3 py-1 bg-yellow-500 hover:bg-yellow-600 text-black rounded">
                             Editar
-                            </button>
-
-                            <button
-                            className="w-24 px-3 py-1 bg-red-600 hover:bg-red-700 text-white rounded"
-                            onClick={() => openModalDelete(tag)}
-                            >
+                          </button>
+                          <button className="w-24 px-3 py-1 bg-red-600 hover:bg-red-700 text-white rounded">
                             Eliminar
-                            </button>
-                        </div>
+                          </button>
+                      </div>
                     </td>
+
                     </tr>
               ))}
             </tbody>
@@ -274,6 +268,6 @@ export default function TablaTags({searchCat ,setSearchCat}) {
           />
         )}
     </section>
-    </>
+    </div>
   );
 }

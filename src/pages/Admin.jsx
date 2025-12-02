@@ -88,38 +88,42 @@ export default function AdminProductos() {
         )}
 
         {!loading && (
-          <div className="pt-20 px-2 md:px-10 bg-[#1b1d1f] min-h-screen text-white">
-            <div className="mt-12 md:mt-1 flex justify-between  font-bold text-white mb-4">
-              <button
-                className=" px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded shadow"
-                onClick={() => mostrarProductos()}
-              >
-                Administrar productos
-              </button>
-              <button
-                className=" px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded shadow"
-                onClick={mostrarTags}
-              >
-                Administrar tags
-              </button>
-              <button
-                className=" px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded shadow"
-                onClick={() => mostrarCategorias()}
-              >
-                Administrar categorias
-              </button>
-            </div>
+          <div className="pt-20 px-2 md:px-10 bg-[#1b1d1f] min-h-screen text-white gap-0 sm:gap-3 space-y-3 sm:space-y-0">
+            <div className="flex flex-col items-center justify-center mt-14 md:mt-0 sm:items-start  sm:flex-row gap-0 sm:gap-3 space-y-3 sm:space-y-0">
+                <button
+                  className="w-32 px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded shadow font-bold leading-tight"
+                  onClick={mostrarProductos}
+                >
+                  Administrar productos
+                </button>
+
+                <button
+                  className="w-32 px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded shadow font-bold leading-tight"
+                  onClick={mostrarTags}
+                >
+                  Administrar tags
+                </button>
+
+                <button
+                  className="w-32 px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded shadow font-bold leading-tight"
+                  onClick={mostrarCategorias}
+                >
+                  Administrar categorías
+                </button>
+              </div>
+
             {/* Listado de productos */}
             {vista==="productos" && (
-              <>
-                <h1 className="block md:hidden text-2xl mb-2 font-bold">Lista Productos</h1>
-                <div className=" flex justify-between  font-bold text-white mb-4">
+              <div className="mt-10">
+                <h1 className=" md:hidden text-2xl mb-2 font-bold flex justify-center">Lista Productos</h1>
+                <div className=" flex justify-between text-white">
                  
                   {/* Busqueda en tabla de productos */}
-                  <button className="hidden md:block  px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded shadow">
+                  
+                  <button className=" hidden md:block font-bold px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded shadow">
                     <Link to="/admin/crearProducto">+ Agregar videojuego</Link>
                   </button>
-                   <button className="block md:hidden px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded shadow">
+                   <button className=" block md:hidden font-bold px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded shadow">
                     <Link to="/admin/crearProducto">+Videojuego</Link>
                   </button>
                   <h1 className="hidden md:block text-2xl mb-2 font-bold">Lista Productos</h1>
@@ -129,7 +133,7 @@ export default function AdminProductos() {
                   productos={juegosFiltrado}
                   onDelete={handleDelete}
                 />
-              </>
+              </div>
             )}
 
             {/* Listado de categorias */}
