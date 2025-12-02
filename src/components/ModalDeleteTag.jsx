@@ -1,5 +1,5 @@
-export function ModalDeleteTag({ closeModalDelete, categoriaABorrar, handleDelete  }) {
-  if (!categoriaABorrar) return null;
+export function ModalDeleteTag({ closeModalDelete, tagABorrar, handleDelete  }) {
+  if (!tagABorrar) return null;
   return (
         <div
         className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 z-50"
@@ -16,7 +16,7 @@ export function ModalDeleteTag({ closeModalDelete, categoriaABorrar, handleDelet
             <p className="text-white font-bold mb-6">
             ¿Eliminar el Tag{" "}
             <span className="font-bold  text-red-600">
-                "{categoriaABorrar.title}"
+                "{tagABorrar.title}"
             </span>
             ?
             </p>
@@ -30,7 +30,7 @@ export function ModalDeleteTag({ closeModalDelete, categoriaABorrar, handleDelet
             </button>
 
             <button
-                onClick={() => handleDelete(categoriaABorrar)}
+                onClick={() => handleDelete(tagABorrar)}
                 className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded text-sm"
             >
                 Eliminar
