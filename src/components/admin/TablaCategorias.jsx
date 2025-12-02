@@ -218,7 +218,7 @@ export default function TablaCategorias({searchCat ,setSearchCat}) {
 
   return (
     <>
-     <h1 className="text-2xl mb-2">Lista Categorias</h1>
+     <h1 className="block md:hidden text-2xl mb-2 font-bold">Lista Categorias</h1>
      <div className="flex justify-between">              
            {/* Busqueda en tabla de categorias */}
 
@@ -234,7 +234,9 @@ export default function TablaCategorias({searchCat ,setSearchCat}) {
           >
               +Categoría
           </button>
-                    <SearchBar value={searchCat} onChange={setSearchCat} />
+          <h1 className="hidden md:block text-2xl mb-2 font-bold">Lista Categorías</h1>
+    
+          <SearchBar value={searchCat} onChange={setSearchCat} />
       </div>
 
     

@@ -7,7 +7,7 @@ import Footer from "../components/genericos/Footer";
 import TablaCategorias from "../components/admin/TablaCategorias";
 import { Link } from "react-router-dom";
 import LoaderAzul from "../components/genericos/LoaderAzul";
-
+import TablaTags from "../components/admin/TablaTags";
 const API_URL = import.meta.env.VITE_API_URL;
 
 export default function AdminProductos() {
@@ -27,19 +27,28 @@ export default function AdminProductos() {
     }
   }, [productos]);
 
-  //estado para renderizado condicional de cual crud se desea usar (entre productos y categorias)
-  const [abmProductos, setAbm] = useState(true);
+  //estado para renderizado condicional de cual crud se desea usar (entre productos, categorias y tags)
+  const [vista, setVista] = useState("productos");
 
   //mostrar productos y reiniciar input de busqueda
   function mostrarProductos() {
     setSearch("");
-    setAbm(true);
+    setVista("productos");
   }
+
   //mostrar categorias y reiniciar input de busqueda
   function mostrarCategorias() {
     setSearchCat("");
-    setAbm(false);
+    setVista("categorias");
   }
+
+  //idem para tags
+  function mostrarTags() {
+    setSearchCat("");
+    setVista("tags");
+  }
+
+
 
   if (!productos) {
     return <p className="text-white p-4">No se encontraron productos</p>;
@@ -79,32 +88,41 @@ export default function AdminProductos() {
         )}
 
         {!loading && (
-          <div className="pt-20 px-10 bg-[#1b1d1f] min-h-screen text-white">
+          <div className="pt-20 px-2 md:px-10 bg-[#1b1d1f] min-h-screen text-white">
             <div className="mt-12 md:mt-1 flex justify-between  font-bold text-white mb-4">
               <button
-                className="mr-1 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded shadow"
+                className=" px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded shadow"
                 onClick={() => mostrarProductos()}
               >
                 Administrar productos
               </button>
-
               <button
-                className="ml-1 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded shadow"
+                className=" px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded shadow"
+                onClick={mostrarTags}
+              >
+                Administrar tags
+              </button>
+              <button
+                className=" px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded shadow"
                 onClick={() => mostrarCategorias()}
               >
                 Administrar categorias
               </button>
             </div>
             {/* Listado de productos */}
-            {abmProductos && (
+            {vista==="productos" && (
               <>
+                <h1 className="block md:hidden text-2xl mb-2 font-bold">Lista Productos</h1>
                 <div className=" flex justify-between  font-bold text-white mb-4">
+                 
                   {/* Busqueda en tabla de productos */}
-                  <button className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded shadow">
+                  <button className="hidden md:block  px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded shadow">
                     <Link to="/admin/crearProducto">+ Agregar videojuego</Link>
                   </button>
-
-                  <h1 className="text-2xl">Lista Productos</h1>
+                   <button className="block md:hidden px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded shadow">
+                    <Link to="/admin/crearProducto">+Videojuego</Link>
+                  </button>
+                  <h1 className="hidden md:block text-2xl mb-2 font-bold">Lista Productos</h1>
                   <SearchBar value={search} onChange={setSearch} />
                 </div>
                 <TablaProducto
@@ -115,14 +133,22 @@ export default function AdminProductos() {
             )}
 
             {/* Listado de categorias */}
-            {!abmProductos && (
+            {vista==="categorias" && (
               <TablaCategorias
+                searchCat={searchCat}
+                setSearchCat={setSearchCat}
+              />
+            )}
+             {/* Listado de tags */}
+            {vista==="tags" && (
+               <TablaTags
                 searchCat={searchCat}
                 setSearchCat={setSearchCat}
               />
             )}
           </div>
         )}
+             
       </div>
       <Footer />
     </>
