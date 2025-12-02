@@ -16,10 +16,10 @@ export default function CartModal({open, setOpen}) {
 
         <div className="fixed inset-0 overflow-hidden">
           <div className="absolute inset-0 overflow-hidden">
-            <div className="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10 sm:pl-16">
+            <div className="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-0 sm:pl-16">
               <DialogPanel
                 transition
-                className="pointer-events-auto z-9999 w-screen max-w-md transform transition duration-500 ease-in-out data-closed:translate-x-full sm:duration-700"
+                className="w-screen pointer-events-auto z-9999 max-w-md transform transition duration-500 ease-in-out data-closed:translate-x-full sm:duration-700"
               >
                 <div className="flex h-full flex-col overflow-y-auto bg-white shadow-xl">
                   <div className="flex-1 overflow-y-auto px-4 py-6 sm:px-6">
@@ -54,6 +54,7 @@ export default function CartModal({open, setOpen}) {
                                       <a>{product.title}</a>
                                     </h3>
                                     <p className="ml-4">$ {(product.price*product.quantity).toFixed(2)}</p>
+
                                   </div>
                                 </div>
                                 <div className="flex flex-1 items-end justify-between text-sm">
@@ -100,6 +101,20 @@ export default function CartModal({open, setOpen}) {
                     <div className="flex justify-between text-base font-medium text-gray-900">
                       <p>Total</p>
                       <p>$ {getCartTotal().toFixed(2)}</p>
+                      {/*Boton de vaciar carrito */ }
+                      <div className="flex justify-end">
+                                      <button
+                                        type="button"
+                                        onClick={() => {clearCart()}}
+                                        className="text-red-600 hover:text-red-800 flex items-center gap-1 text-sm font-medium"
+                                      >
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="w-4 fill-current" viewBox="0 0 24 24">
+                                          <path d="M19 7a1 1 0 0 0-1 1v11.191A1.92 1.92 0 0 1 15.99 21H8.01A1.92 1.92 0 0 1 6 19.191V8a1 1 0 0 0-2 0v11.191A3.918 3.918 0 0 0 8.01 23h7.98A3.918 3.918 0 0 0 20 19.191V8a1 1 0 0 0-1-1Zm1-3h-4V2a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v2H4a1 1 0 0 0 0 2h16a1 1 0 0 0 0-2ZM10 4V3h4v1Z"></path>
+                                          <path d="M11 17v-7a1 1 0 0 0-2 0v7a1 1 0 0 0 2 0Zm4 0v-7a1 1 0 0 0-2 0v7a1 1 0 0 0 2 0Z"></path>
+                                        </svg>
+                                        Vaciar carrito
+                                      </button>
+                        </div>
                     </div>
                     <p className="mt-0.5 text-sm text-gray-500">Envío e impuestos calculados al pagar.</p>
                     <div className="mt-6">

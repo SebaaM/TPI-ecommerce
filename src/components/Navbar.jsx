@@ -53,10 +53,6 @@ export default function Navbar() {
     navigate("/")
   };
 
-  const login = () => {
-    localStorage.setItem("userLogged", "true");
-    setUser({ logged: true });
-  };
   //Si esta logueado, filtro admin asi no se mapea en la navBar
   const navigationLogueado = navigation.filter(item => {
     if (item.name === "Admin" && !user.logged) return false;

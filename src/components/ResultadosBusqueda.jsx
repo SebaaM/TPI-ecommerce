@@ -18,7 +18,7 @@ export default function ResultadosBusqueda({ searchResults}) {
                                 className="flex items-center gap-4 bg-gray-800 p-3 rounded-lg hover:bg-gray-700 transition"
                               >
                                 <img
-                                  src={`http://161.35.104.211:8000${prod.pictures}`}
+                                  src={`http://161.35.104.211:8000${prod.pictures[0]}`}
                                   className="w-14 h-14 object-cover rounded-md"
                                 />
                                 <div>
