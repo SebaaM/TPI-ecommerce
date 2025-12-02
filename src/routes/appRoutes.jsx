@@ -10,12 +10,11 @@ import ContactoPage from "../pages/ContactoPage";
 import Login from "../pages/Login";
 import AdminProductos from "../pages/Admin";
 import { Navigate } from "react-router-dom";
-import { useState } from "react";
+import { AuthContext } from "../context/AuthContext";
+import { useContext } from "react";
 function App() {
     //obtener estado de login 
-    const [logged, setLogged] = useState(
-    localStorage.getItem("userLogged") === "true"
-    );
+   const { logged } = useContext(AuthContext);
   return (
     <Routes>
       <Route path="/" element={<LandingPage />} />

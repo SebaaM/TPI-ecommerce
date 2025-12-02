@@ -21,7 +21,8 @@ import { SearchBar } from "./SearchBar";
 import CartModal from "./cartModal";
 import { useFetchCategoria } from "../utils/useFetchCategoria";
 import { useNavigate } from "react-router-dom";
- 
+import { AuthContext } from "../context/AuthContext";
+
 /*cambiar por links definitivos a cada seccion cuando esten creadas las paginas */
 const navigation = [
   { name: "Inicio", href: "/" },
@@ -35,27 +36,21 @@ function classNames(...classes) {
 
 
 export default function Navbar() {
+  //Para realizar logout
+  const { logout,logged } = useContext(AuthContext);
   //estado para el modal
   const [open, setOpen] = useState(false);
-  //estado de usuario
-  const [user, setUser] = useState({ logged: false });
   //inicializar el navigate
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const logged = localStorage.getItem("userLogged") === "true";
-    setUser({ logged });
-  }, []);
-
-  const logout = () => {
-    localStorage.removeItem("userLogged");
-    setUser({ logged: false });
+  const activarLogout = () => {
+    logout()
     navigate("/")
   };
 
   //Si esta logueado, filtro admin asi no se mapea en la navBar
   const navigationLogueado = navigation.filter(item => {
-    if (item.name === "Admin" && !user.logged) return false;
+    if (item.name === "Admin" && !logged) return false;
     return true;
   });
 
@@ -66,10 +61,7 @@ export default function Navbar() {
     loading: catLoading,
     error: catError,
   } = useFetchCategoria();
-  // categorias vuelve como undefined
-  const categoriasNombre = Array.isArray(categorias)
-    ? categorias.map((cat) => cat.title)
-    : [];
+
 
   
 
@@ -215,10 +207,10 @@ export default function Navbar() {
                   transition
                   className="absolute right-0 z-50 mt-2 w-48 origin-top-right rounded-md bg-[#2a2d31] py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                 >
-                  {user.logged ? (
+                  {logged ? (
                       <MenuItem
                         as="button"
-                        onClick={logout}
+                        onClick={activarLogout}
                         className="block w-full text-left px-4 py-2 text-sm text-gray-200 data-focus:bg-gray-700"
                       >
                         Cerrar sesión

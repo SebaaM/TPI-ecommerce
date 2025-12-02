@@ -1,13 +1,16 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-export function GoogleLoginMock({ setUser }) {
-  
+import { AuthContext } from "../../context/AuthContext";
+import { useContext } from "react";
+export function GoogleLoginMock() {
+  const { login } = useContext(AuthContext);
   //inicializar el navigate
   const navigate = useNavigate();
 
   //Chequeo de campos vacios
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+
   //login con credenciales
   function handleMockLogin(e) {
     e.preventDefault();
@@ -17,16 +20,15 @@ export function GoogleLoginMock({ setUser }) {
       return;
     }
     // Simula que son credenciales válidas
-    localStorage.setItem("userLogged", "true");
-    setUser({ logged: true });
+    //Login actualiza el contexto
+    login();
     navigate("/admin");
   }
   //login con Google por separado, no depende de los valores del formulario
     function handleGoogleLogin(e) {
     e.preventDefault();
 
-    localStorage.setItem("userLogged", "true");
-    setUser({ logged: true });
+    login();
     navigate("/admin");
   }
 
