@@ -1,3 +1,6 @@
+
+const API_URL = import.meta.env.VITE_API_URL;
+
 export default function FilaCategorias({ categoria, openModalEdit, openModalDelete}) {
   return (
           <tr
@@ -6,7 +9,7 @@ export default function FilaCategorias({ categoria, openModalEdit, openModalDele
                 >
                   <td className="px-4 py-3">
                     <img
-                      src={`http://161.35.104.211:8000${categoria.picture}`}
+                      src={`${API_URL}${categoria.picture}`}
                       className="w-14 h-14 object-cover rounded"
                       alt={categoria.title}
                     />

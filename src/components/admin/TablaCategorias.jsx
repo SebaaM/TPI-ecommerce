@@ -4,6 +4,8 @@ import { ModalCategorias } from "../ModalCategorias";
 import { ModalDeleteCategorias } from "../ModalDeleteCategorias";
 import { SearchBar } from "../SearchBar";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 export default function TablaCategorias({searchCat ,setSearchCat}) {
  
 
@@ -12,7 +14,7 @@ export default function TablaCategorias({searchCat ,setSearchCat}) {
 
   const fetchCategorias = async () => {
     try {
-      const res = await fetch("http://161.35.104.211:8000/categories/", {
+      const res = await fetch(`${API_URL}/categories/`, {
         headers: {
           accept: "application/json",
           Authorization: "Bearer elias",
@@ -139,7 +141,7 @@ export default function TablaCategorias({searchCat ,setSearchCat}) {
 
       //Editar
       if (editing) {
-        await fetch(`http://161.35.104.211:8000/categories/${categoryId}`, {
+        await fetch(`${API_URL}/categories/${categoryId}`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
@@ -156,7 +158,7 @@ export default function TablaCategorias({searchCat ,setSearchCat}) {
 
       //Crear
       else {
-        const res = await fetch("http://161.35.104.211:8000/categories/", {
+        const res = await fetch(`${API_URL}/categories/`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -180,7 +182,7 @@ export default function TablaCategorias({searchCat ,setSearchCat}) {
         fd.append("file", form.picture);
 
         await fetch(
-          `http://161.35.104.211:8000/categories/${categoryId}/picture`,
+          `${API_URL}/categories/${categoryId}/picture`,
           {
             method: "POST",
              headers: {
@@ -200,7 +202,7 @@ export default function TablaCategorias({searchCat ,setSearchCat}) {
   //Handle de borrado
   const handleDelete = async (categoria) => {
     try {
-      await fetch(`http://161.35.104.211:8000/categories/${categoria.id}`, {
+      await fetch(`${API_URL}/categories/${categoria.id}`, {
         method: "DELETE",
         headers: {
           accept: "application/json",
@@ -246,7 +248,7 @@ export default function TablaCategorias({searchCat ,setSearchCat}) {
               className="bg-gray-800 p-4 rounded-lg border border-gray-700 flex gap-4 items-start"
             >
               <img
-                src={`http://161.35.104.211:8000${categoria.picture}`}
+                src={`${API_URL}${categoria.picture}`}
                 className="w-16 h-16 object-cover rounded-md"
                 alt={categoria.title}
               />

@@ -3,6 +3,9 @@ import CategoriaCard from "../components/categoriaComponent/CategoriaCard";
 import Navbar from "../components/Navbar";
 import Footer from "../components/genericos/Footer";
 import Loader from "../components/genericos/Loader";
+
+const API_URL = import.meta.env.VITE_API_URL;
+
 function Categorias() {
   const { data: categorias, loading, error } = useFetchCategoria();
 
@@ -33,7 +36,7 @@ function Categorias() {
               key={cat.id}
               id={cat.id}
               title={cat.title}
-              picture={`http://161.35.104.211:8000${cat.picture}`}
+              picture={`${API_URL}${cat.picture}`}
               description={cat.description}
             />
           ))

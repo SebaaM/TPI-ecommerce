@@ -1,3 +1,6 @@
+ const API_URL = import.meta.env.VITE_API_URL;
+
+
 export const ModalCategorias = ({form, handleChange, handleSubmit, closeModal, editing }) => {
   
   return (
@@ -43,7 +46,7 @@ export const ModalCategorias = ({form, handleChange, handleSubmit, closeModal, e
                     <img
                         src={form.picturePreview
                               ? form.picturePreview
-                              : `http://161.35.104.211:8000${form.picture}`
+                              : `${API_URL}${form.picture}`
                           }
                         className="w-14 h-14 object-cover rounded"
                         alt={form.title}

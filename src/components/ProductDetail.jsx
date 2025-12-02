@@ -5,6 +5,9 @@ import { useContext } from "react";
 import { CartContext } from "../context/cart";
 import { useState } from "react";
 import Loader from "./genericos/Loader";
+
+ const API_URL = import.meta.env.VITE_API_URL;
+
 export default function ProductDetail() {
   //id del producto obtenido de a url
   const id = useParams().id;
@@ -20,8 +23,8 @@ export default function ProductDetail() {
     ...producto,
     //correccion de url
     pictures: Array.isArray(producto.pictures)
-      ? `http://161.35.104.211:8000${producto.pictures[0]}`
-      : `http://161.35.104.211:8000${producto.pictures}`,
+      ? `${API_URL}${producto.pictures[0]}`
+      : `${API_URL}${producto.pictures}`,
   };
 
   return (

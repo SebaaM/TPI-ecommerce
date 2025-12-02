@@ -1,7 +1,8 @@
 import { Catalogo } from "../components/Catalogo";
 import Footer from "../components/genericos/Footer";
 import Navbar from "../components/Navbar";
-// Agregar import navbar.
+
+const API_URL = import.meta.env.VITE_API_URL;
 
 function Home() {
   return (
@@ -9,7 +10,7 @@ function Home() {
       <div className="w-full min-h-screen bg-gray-800 grow">
         <Navbar />
         <Catalogo
-          apiUrl={"http://161.35.104.211:8000/products/"}
+          apiUrl={`${API_URL}/products/`}
           apiToken={"elias"}
         ></Catalogo>
       </div>

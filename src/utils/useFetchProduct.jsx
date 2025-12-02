@@ -1,8 +1,10 @@
 // Fetch par obtener datos de un producto en especifico
 import { useFetch } from "./useFetch";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 export function useFetchProduct(id) {
-  const url = `http://161.35.104.211:8000/products/` + (id ? `${id}/` : "");
+  const url = `${API_URL}/products/` + (id ? `${id}/` : "");
   const options = {
     method: "GET",
     headers: {

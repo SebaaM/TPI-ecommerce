@@ -1,5 +1,9 @@
 import { useState, useEffect } from "react";
 import Ficha from "./Ficha";
+
+const API_URL = import.meta.env.VITE_API_URL;
+
+
 export const ProductList = ({ apiUrl, apiToken, searchInput,loading, setLoading}) => {
   const [productos, setProducts] = useState([]);
 
@@ -51,7 +55,7 @@ export const ProductList = ({ apiUrl, apiToken, searchInput,loading, setLoading}
           <Ficha
             key={i}
             id={producto.id}
-            pictures={`http://161.35.104.211:8000${producto.pictures[0]}`}
+            pictures={`${API_URL}${producto.pictures[0]}`}
             title={producto.title}
             description={producto.description}
             price={producto.price}

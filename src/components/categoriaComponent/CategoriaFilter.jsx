@@ -4,6 +4,9 @@ import Ficha from "../Ficha";
 import Navbar from "../Navbar";
 import Footer from "../genericos/Footer";
 import Loader from "../genericos/Loader";
+
+const API_URL = import.meta.env.VITE_API_URL;
+
 function CategoriaFilter() {
   const id = useParams().id;
   const { data: productos, loading, error } = useFetchProductos();
@@ -43,7 +46,7 @@ function CategoriaFilter() {
                     <Ficha
                       key={i}
                       id={producto.id}
-                      pictures={`http://161.35.104.211:8000${producto.pictures[0]}`}
+                      pictures={`${API_URL}${producto.pictures[0]}`}
                       titletitle={producto.title}
                       description={producto.description}
                       price={producto.price}
