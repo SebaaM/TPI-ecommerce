@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { CartContext } from "../context/cart";
 import { useContext } from "react";
@@ -20,7 +20,8 @@ import {
 import { SearchBar } from "./SearchBar";
 import CartModal from "./cartModal";
 import { useFetchCategoria } from "../utils/useFetchCategoria";
-
+import { useNavigate } from "react-router-dom";
+ 
 /*cambiar por links definitivos a cada seccion cuando esten creadas las paginas */
 const navigation = [
   { name: "Inicio", href: "/" },
@@ -32,8 +33,36 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
+
 export default function Navbar() {
+  //estado para el modal
   const [open, setOpen] = useState(false);
+  //estado de usuario
+  const [user, setUser] = useState({ logged: false });
+  //inicializar el navigate
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const logged = localStorage.getItem("userLogged") === "true";
+    setUser({ logged });
+  }, []);
+
+  const logout = () => {
+    localStorage.removeItem("userLogged");
+    setUser({ logged: false });
+    navigate("/")
+  };
+
+  const login = () => {
+    localStorage.setItem("userLogged", "true");
+    setUser({ logged: true });
+  };
+  //Si esta logueado, filtro admin asi no se mapea en la navBar
+  const navigationLogueado = navigation.filter(item => {
+    if (item.name === "Admin" && !user.logged) return false;
+    return true;
+  });
+
   const { getCartQuantity } = useContext(CartContext);
 
   const {
@@ -105,7 +134,7 @@ export default function Navbar() {
               {/* Links */}
               <div className="hidden sm:ml-6 sm:block">
                 <div className="flex space-x-4">
-                  {navigation.map((item) => (
+                  {navigationLogueado.map((item) => (
                     <Link
                       key={item.name}
                       to={item.href}
@@ -179,11 +208,9 @@ export default function Navbar() {
               <Menu as="div" className="relative">
                 <div className="cursor-pointer flex items-center justify-center rounded-full hover:ring-2 hover:ring-white transition">
                   <Menu.Button as="div">
-                    <img
-                      src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=facearea&w=256&h=256&q=80"
-                      alt="User avatar"
-                      className="h-8 w-8 rounded-full border border-gray-600"
-                    />
+                      <div className="relative w-10 h-10 overflow-hidden bg-neutral-secondary-medium rounded-full">
+                          <svg className="absolute w-12 h-12 text-body-subtle -left-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd"></path></svg>
+                      </div>
                   </Menu.Button>
                 </div>
 
@@ -192,26 +219,23 @@ export default function Navbar() {
                   transition
                   className="absolute right-0 z-50 mt-2 w-48 origin-top-right rounded-md bg-[#2a2d31] py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                 >
-                  <MenuItem
-                    as={Link}
-                    to="/profile"
-                    className="block px-4 py-2 text-sm text-gray-200 data-focus:bg-gray-700"
-                  >
-                    Tu perfil
-                  </MenuItem>
-                  <MenuItem
-                    as={Link}
-                    to="/settings"
-                    className="block px-4 py-2 text-sm text-white data-focus:bg-gray-700"
-                  >
-                    Configuración
-                  </MenuItem>
-                  <MenuItem
-                    as={Link}
-                    className="block px-4 py-2 text-sm text-gray-200 data-focus:bg-gray-700"
-                  >
-                    Cerrar sesión
-                  </MenuItem>
+                  {user.logged ? (
+                      <MenuItem
+                        as="button"
+                        onClick={logout}
+                        className="block w-full text-left px-4 py-2 text-sm text-gray-200 data-focus:bg-gray-700"
+                      >
+                        Cerrar sesión
+                      </MenuItem>
+                    ) : (
+                      <MenuItem
+                        as={Link}
+                        to="/login"
+                        className="block w-full text-left px-4 py-2 text-sm text-gray-200 data-focus:bg-gray-700"
+                      >
+                        Iniciar sesión
+                      </MenuItem>
+                      )}
                 </MenuItems>
               </Menu>
             </div>
@@ -221,7 +245,7 @@ export default function Navbar() {
         {/* Menú móvil */}
         <DisclosurePanel className="sm:hidden border-t border-gray-700">
           <div className="space-y-1 px-2 pt-2 pb-3 bg-[#1b1d1f]">
-            {navigation.map((item) => (
+            {navigationLogueado.map((item) => (
               <DisclosureButton
                 key={item.name}
                 as={Link}
