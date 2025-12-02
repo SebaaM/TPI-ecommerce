@@ -239,10 +239,14 @@ export default function TablaTags({searchCat ,setSearchCat}) {
                     <td className="px-4 py-3">{tag.title}</td>
                     <td className="px-4 py-3">
                       <div className="flex justify-end gap-2 sm:flex-row flex-col sm:space-y-0 space-y-2">
-                          <button className="w-24 px-3 py-1 bg-yellow-500 hover:bg-yellow-600 text-black rounded">
+                          <button className="w-24 px-3 py-1 bg-yellow-500 hover:bg-yellow-600 text-black rounded"
+                                  onClick={() => openModalEdit(tag)}
+                          >
                             Editar
                           </button>
-                          <button className="w-24 px-3 py-1 bg-red-600 hover:bg-red-700 text-white rounded">
+                          <button className="w-24 px-3 py-1 bg-red-600 hover:bg-red-700 text-white rounded"
+                                  onClick={() => openModalDelete(tag)}
+                          >
                             Eliminar
                           </button>
                       </div>
