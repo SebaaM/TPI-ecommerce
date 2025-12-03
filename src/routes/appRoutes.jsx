@@ -12,9 +12,11 @@ import AdminProductos from "../pages/Admin";
 import { Navigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import { useContext } from "react";
+import PagoJuegoPage from "../pages/Pagos";
+
 function App() {
-    //obtener estado de login 
-   const { logged } = useContext(AuthContext);
+  //obtener estado de login
+  const { logged } = useContext(AuthContext);
   return (
     <Routes>
       <Route path="/" element={<LandingPage />} />
@@ -22,11 +24,21 @@ function App() {
       <Route path="/categorias/" element={<Categorias />} />
       <Route path="/categorias/:id" element={<CategoriaFilter />} />
       <Route path="/producto/:id" element={<ProductPage />} />
-      <Route path="/admin" element={logged ? <AdminProductos /> : <Navigate to="/" />} />
-      <Route path="/admin/crearProducto" element={logged ? <PageFormulario/> : <Navigate to="/" />} />
-      <Route path="/admin/editarProducto/:id" element={logged ? <PageFormulario/> : <Navigate to="/"/> } />
+      <Route
+        path="/admin"
+        element={logged ? <AdminProductos /> : <Navigate to="/" />}
+      />
+      <Route
+        path="/admin/crearProducto"
+        element={logged ? <PageFormulario /> : <Navigate to="/" />}
+      />
+      <Route
+        path="/admin/editarProducto/:id"
+        element={logged ? <PageFormulario /> : <Navigate to="/" />}
+      />
       <Route path="/contacto" element={<ContactoPage />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/pago" element={<PagoJuegoPage />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
