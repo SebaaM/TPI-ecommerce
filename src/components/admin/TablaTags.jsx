@@ -5,7 +5,7 @@ import { ModalTags } from "../ModalTags";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-export default function TablaTags({ searchCat, setSearchCat }) {
+export default function TablaTags({ searchTag, setSearchTag }) {
   //fetch de tags
   const [tags, setTags] = useState([]);
 
@@ -35,7 +35,7 @@ export default function TablaTags({ searchCat, setSearchCat }) {
   //Filtrado por tag usando el valor de la barra de busqueda
   const tagsFiltrado =
     tags?.filter((tagIndividual) =>
-      tagIndividual.title.toLowerCase().includes(searchCat.toLowerCase())
+      tagIndividual.title.toLowerCase().includes(searchTag.toLowerCase())
     ) || [];
 
   //Mostrar o no modal
@@ -183,7 +183,7 @@ export default function TablaTags({ searchCat, setSearchCat }) {
         </button>
         <h1 className="hidden md:block text-2xl mb-2 font-bold">Lista Tags</h1>
 
-        <SearchBar value={searchCat} onChange={setSearchCat} />
+        <SearchBar value={searchTag} onChange={setSearchTag} />
       </div>
 
       <section className="w-full">

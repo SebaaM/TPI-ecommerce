@@ -19,6 +19,9 @@ export default function AdminProductos() {
   //estado de barra de busqueda de productos en la tabla
   const [search, setSearch] = useState("");
 
+  //estado de barra de busqueda de tags en la tabla
+   const [searchTag, setSearchTag] = useState("");
+
   //fetch de productos
   const { data: productos, loading, error } = useFetchProductos();
   const [productosState, setProductosState] = useState([]);
@@ -34,18 +37,24 @@ export default function AdminProductos() {
 
   //mostrar productos y reiniciar input de busqueda
   function mostrarProductos() {
+    setSearchTag("");
     setSearch("");
+    setSearchCat("");
     setVista("productos");
   }
 
   //mostrar categorias y reiniciar input de busqueda
   function mostrarCategorias() {
+    setSearchTag("");
+    setSearch("");
     setSearchCat("");
     setVista("categorias");
   }
 
   //idem para tags
   function mostrarTags() {
+    setSearchTag("");
+    setSearch("");
     setSearchCat("");
     setVista("tags");
   }
@@ -136,7 +145,7 @@ export default function AdminProductos() {
             )}
             {/* Listado de tags */}
             {vista === "tags" && (
-              <TablaTags searchCat={searchCat} setSearchCat={setSearchCat} />
+              <TablaTags searchTag={searchTag} setSearchTag={setSearchTag} />
             )}
           </div>
         )}
