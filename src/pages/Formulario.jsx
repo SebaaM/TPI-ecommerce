@@ -79,7 +79,7 @@ export default function PageFormulario() {
   return (
     <>
       <Navbar />
-      <div className="min-h-screen bg-indigo-950  text-white py-25 p-8">
+      <div className="min-h-screen bg-gray-900  text-white py-25 p-8">
         <ProductoForm id={id} onEnvio={handleSubmit} />
       </div>
       <Footer />
