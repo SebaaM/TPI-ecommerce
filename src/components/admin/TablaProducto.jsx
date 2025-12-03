@@ -31,10 +31,12 @@ export default function TablaProducto({ onDelete }) {
             <thead className="bg-gray-800 text-white">
               <tr>
                 <th className="px-4 py-2 text-left">Nombre</th>
-                <th className="px-4 py-2 text-left">Precio</th>
-                <th className="px-4 py-2 text-left">Categoría</th>
+                <th className="px-2 md:px-4 py-2 text-left">Precio</th>
+                <th className="px-4 py-2 text-left md:table-cell hidden">
+                  Categoría
+                </th>
                 <th className="px-4 py-2 text-left">Tags</th>
-                <th className="px-4 py-2 text-center">Acciones</th>
+                <th className=" px-4 py-2 text-center">Acciones</th>
               </tr>
             </thead>
             <tbody className="bg-gray-900 text-gray-200">
@@ -46,7 +48,7 @@ export default function TablaProducto({ onDelete }) {
 
           <div className="flex justify-between items-center mt-4 pb-4">
             <button
-              className="px-4 py-2 bg-gray-700 text-white rounded disabled:opacity-50 hover:bg-gray-600"
+              className="px-4 py-2  text-white rounded disabled:opacity-50 bg-purple-600 hover:bg-purple-700 "
               onClick={() => setPage((prev) => Math.max(prev - 1, 0))}
               disabled={page === 0}
             >
@@ -54,9 +56,9 @@ export default function TablaProducto({ onDelete }) {
             </button>
             <span className="text-gray-300">Página {page + 1}</span>
             <button
-              className="px-4 py-2 bg-gray-700 text-white rounded disabled:opacity-50 hover:bg-gray-600"
+              className="px-4 py-2 text-white rounded disabled:opacity-50 bg-purple-600 hover:bg-purple-700"
               onClick={() => setPage((prev) => prev + 1)}
-              disabled={productos.length < limit} // clave: si devuelve menos, no hay más páginas
+              disabled={productos.length < limit} // Deshabilitar si no hay más productos
             >
               Siguiente
             </button>

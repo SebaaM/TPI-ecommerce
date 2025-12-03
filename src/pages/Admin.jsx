@@ -8,6 +8,8 @@ import TablaCategorias from "../components/admin/TablaCategorias";
 import { Link } from "react-router-dom";
 import LoaderAzul from "../components/genericos/LoaderAzul";
 import TablaTags from "../components/admin/TablaTags";
+import BotonMultiple from "../components/BotonMultiple";
+
 const API_URL = import.meta.env.VITE_API_URL;
 
 export default function AdminProductos() {
@@ -87,29 +89,18 @@ export default function AdminProductos() {
 
         {!loading && (
           <div className="pt-20 px-2 md:px-10 bg-[#1b1d1f] min-h-screen text-white gap-0 sm:gap-3 space-y-3 sm:space-y-0">
-            <div className="flex flex-col items-center justify-center mt-14 md:mt-0 sm:items-start  sm:flex-row gap-0 sm:gap-5 space-y-3 sm:space-y-0">
-              <button
-                className="w-32 px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded shadow font-bold leading-tight"
-                onClick={mostrarProductos}
-              >
-                Administrar productos
-              </button>
-
-              <button
-                className="w-32 px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded shadow font-bold leading-tight"
-                onClick={mostrarTags}
-              >
-                Administrar tags
-              </button>
-
-              <button
-                className="w-32 px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded shadow font-bold leading-tight"
-                onClick={mostrarCategorias}
-              >
-                Administrar categorías
-              </button>
+            <span className="text-3xl font-bold justify-center flex p-2">
+              Panel de administración
+            </span>
+            <div className="flex flex-col  items-center justify-center mt-14 md:mt-0 sm:items-start  sm:flex-row gap-0 sm:gap-5 space-y-3 sm:space-y-0">
+              <BotonMultiple
+                onChange={(opcion) => {
+                  if (opcion === "productos") mostrarProductos();
+                  if (opcion === "tags") mostrarTags();
+                  if (opcion === "categorias") mostrarCategorias();
+                }}
+              />
             </div>
-
             {/* Listado de productos */}
             {vista === "productos" && (
               <div className="mt-10">
@@ -119,10 +110,10 @@ export default function AdminProductos() {
                 <div className=" flex justify-between text-white">
                   {/* Busqueda en tabla de productos */}
 
-                  <button className=" hidden md:block font-bold px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded shadow">
+                  <button className=" hidden md:block font-bold px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded shadow">
                     <Link to="/admin/crearProducto">+ Agregar videojuego</Link>
                   </button>
-                  <button className=" block md:hidden font-bold px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded shadow">
+                  <button className=" block md:hidden font-bold px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded shadow">
                     <Link to="/admin/crearProducto">+Videojuego</Link>
                   </button>
                   <h1 className="hidden md:block text-2xl mb-2 font-bold">
@@ -136,7 +127,6 @@ export default function AdminProductos() {
                 />
               </div>
             )}
-
             {/* Listado de categorias */}
             {vista === "categorias" && (
               <TablaCategorias
@@ -151,6 +141,7 @@ export default function AdminProductos() {
           </div>
         )}
       </div>
+
       <Footer />
     </>
   );

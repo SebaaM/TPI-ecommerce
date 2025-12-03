@@ -6,9 +6,7 @@ import { SearchBar } from "../SearchBar";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-export default function TablaCategorias({searchCat ,setSearchCat}) {
- 
-
+export default function TablaCategorias({ searchCat, setSearchCat }) {
   //fetch de categorias
   const [categorias, setCategorias] = useState([]);
 
@@ -27,29 +25,27 @@ export default function TablaCategorias({searchCat ,setSearchCat}) {
     }
   };
 
-   useEffect(() => {
+  useEffect(() => {
     fetchCategorias();
   }, []);
 
   //para poder actualizar listado cuando se modifique la lista
-   const recargarCategorias = () => {
+  const recargarCategorias = () => {
     fetchCategorias();
   };
-   //Filtrado por categoria usando el valor de la barra de busqueda
+  //Filtrado por categoria usando el valor de la barra de busqueda
   const categoriasFiltrado =
     categorias?.filter((categoria) =>
       categoria.title.toLowerCase().includes(searchCat.toLowerCase())
     ) || [];
 
-    
   //Mostrar o no modal
   const [showModal, setShowModal] = useState(false);
 
   //Mostrar modal de borrar
   const [showModalDelete, setShowModalDelete] = useState(false);
   //Categoria a borrar
-   const [categoriaABorrar, setCategoriaABorrar] = useState(false);
- 
+  const [categoriaABorrar, setCategoriaABorrar] = useState(false);
 
   //Estado para saber si se esta editando o creando para manejar el evento como corresponda
   const [editing, setEditing] = useState(null);
@@ -58,7 +54,7 @@ export default function TablaCategorias({searchCat ,setSearchCat}) {
   const [form, setForm] = useState({
     title: "",
     description: "",
-    picture:  null,
+    picture: null,
     picturePreview: null,
   });
 
@@ -68,13 +64,13 @@ export default function TablaCategorias({searchCat ,setSearchCat}) {
     setForm({
       title: "",
       description: "",
-      picture:  null,
+      picture: null,
       picturePreview: null,
     });
     setShowModal(true);
   };
 
-  //Abrir Editar: 
+  //Abrir Editar:
   const openModalEdit = (categoria) => {
     setEditing(categoria);
 
@@ -88,19 +84,23 @@ export default function TablaCategorias({searchCat ,setSearchCat}) {
     setShowModal(true);
   };
   //Abrir Borrar:
-  const openModalDelete = (categoria) =>{
-      setCategoriaABorrar(categoria);
-      setShowModalDelete(true);
-  }
+  const openModalDelete = (categoria) => {
+    setCategoriaABorrar(categoria);
+    setShowModalDelete(true);
+  };
 
   //Cerrar modal
-  const closeModal = () => {setShowModal(false)};
+  const closeModal = () => {
+    setShowModal(false);
+  };
   //Cerrar modal borrar
-  const closeModalDelete = () => {setShowModalDelete(false)}
+  const closeModalDelete = () => {
+    setShowModalDelete(false);
+  };
 
   //Mantener sincronizado
   const handleChange = (e) => {
-  const { name, value, files } = e.target;
+    const { name, value, files } = e.target;
 
     if (name === "picture" && files?.length > 0) {
       const file = files[0];
@@ -153,7 +153,7 @@ export default function TablaCategorias({searchCat ,setSearchCat}) {
             description: form.description,
           }),
         });
-        recargarCategorias()
+        recargarCategorias();
       }
 
       //Crear
@@ -173,7 +173,7 @@ export default function TablaCategorias({searchCat ,setSearchCat}) {
 
         const data = await res.json();
         categoryId = data.id; // id de la respuesta, para poder asignar imagen,si es que hay
-        recargarCategorias()
+        recargarCategorias();
       }
 
       // Subir imagen
@@ -181,17 +181,14 @@ export default function TablaCategorias({searchCat ,setSearchCat}) {
         const fd = new FormData();
         fd.append("file", form.picture);
 
-        await fetch(
-          `${API_URL}/categories/${categoryId}/picture`,
-          {
-            method: "POST",
-             headers: {
-               Authorization: "Bearer elias",
+        await fetch(`${API_URL}/categories/${categoryId}/picture`, {
+          method: "POST",
+          headers: {
+            Authorization: "Bearer elias",
           },
-            body: fd,
-          }
-        );
-        recargarCategorias()
+          body: fd,
+        });
+        recargarCategorias();
       }
 
       closeModal();
@@ -208,119 +205,129 @@ export default function TablaCategorias({searchCat ,setSearchCat}) {
           accept: "application/json",
           Authorization: "Bearer elias",
         },
-      }); 
+      });
       closeModalDelete();
     } catch (err) {
       console.error("Error al eliminar:", err);
     }
-    recargarCategorias()
+    recargarCategorias();
   };
 
   return (
     <div className="mt-10">
-     <h1 className=" md:hidden text-2xl mb-2 font-bold flex justify-center">Lista Categorias</h1>
-     <div className="flex justify-between">              
-           {/* Busqueda en tabla de categorias */}
+      <h1 className=" md:hidden text-2xl mb-2 font-bold flex justify-center">
+        Lista Categorias
+      </h1>
+      <div className="flex justify-between">
+        {/* Busqueda en tabla de categorias */}
 
-          <button
-            className="w-48 hidden md:block px-4 py-2 mb-2 bg-blue-600 hover:bg-blue-700 text-white rounded shadow text-base font-bold"
-            onClick={openModalNew}
-          >
-              + Agregar categoría
-          </button>
-          <button
-            className="block md:hidden px-4 py-2 mb-2 bg-blue-600 hover:bg-blue-700 text-white rounded shadow text-base font-bold"
-            onClick={openModalNew}
-          >
-              +Categoría
-          </button>
-          <h1 className="hidden md:block text-2xl mb-2 font-bold">Lista Categorías</h1>
-    
-          <SearchBar value={searchCat} onChange={setSearchCat} />
+        <button
+          className="w-48 hidden md:block px-4 py-2 mb-2 bg-orange-600 hover:bg-orange-700 text-white rounded shadow text-base font-bold"
+          onClick={openModalNew}
+        >
+          + Agregar categoría
+        </button>
+        <button
+          className="block md:hidden px-4 py-2 mb-2 bg-orange-600 hover:bg-orange-700 text-white rounded shadow text-base font-bold"
+          onClick={openModalNew}
+        >
+          +Categoría
+        </button>
+        <h1 className="hidden md:block text-2xl mb-2 font-bold">
+          Lista Categorías
+        </h1>
+
+        <SearchBar value={searchCat} onChange={setSearchCat} />
       </div>
 
-    
-    <section className="w-full">
-      <div className="mx-auto max-w-7xl bg-gray-900">
-        {/* Estilo en movil */}
-        <div className="flex flex-col gap-3 md:hidden">
-          {categoriasFiltrado.map((categoria) => (
-            <div
-              key={categoria.id}
-              className="bg-gray-800 p-4 rounded-lg border border-gray-700 flex gap-4 items-start"
-            >
-              <img
-                src={`${API_URL}${categoria.picture}`}
-                className="w-16 h-16 object-cover rounded-md"
-                alt={categoria.title}
-              />
+      <section className="w-full">
+        <div className="mx-auto max-w-7xl bg-gray-900">
+          {/* Estilo en movil */}
+          <div className="flex flex-col gap-3 md:hidden">
+            {categoriasFiltrado.map((categoria) => (
+              <div
+                key={categoria.id}
+                className="bg-gray-800 p-4 rounded-lg border border-gray-700 flex gap-4 items-start"
+              >
+                <img
+                  src={`${API_URL}${categoria.picture}`}
+                  className="w-16 h-16 object-cover rounded-md"
+                  alt={categoria.title}
+                />
 
-              <div>
-                <p className="text-white font-semibold text-base">
-                  {categoria.title}
-                </p>
+                <div>
+                  <p className="text-white font-semibold text-base">
+                    {categoria.title}
+                  </p>
 
-                <p className="text-gray-300 line-clamp-3 max-w-[200px] mt-1">
-                  {categoria.description}
-                </p>
+                  <p className="text-gray-300 line-clamp-3 max-w-[200px] mt-1">
+                    {categoria.description}
+                  </p>
 
-                <div className="flex justify-end gap-2">
-                  <button
-                    className="w-24 px-3 py-1 bg-yellow-500 hover:bg-yellow-600 text-black rounded"
-                    onClick={() => openModalEdit(categoria)}
-                  >
-                    Editar
-                  </button>
-                  <button
-                     className="w-24 px-3 py-1 bg-red-600 hover:bg-red-700 text-white rounded"
-                    onClick={() => openModalDelete(categoria)}
-                  >
-                    Eliminar
-                  </button>
+                  <div className="flex justify-end gap-2">
+                    <button
+                      className="w-24 px-3 py-1 bg-yellow-500 hover:bg-yellow-600 text-black rounded"
+                      onClick={() => openModalEdit(categoria)}
+                    >
+                      Editar
+                    </button>
+                    <button
+                      className="w-24 px-3 py-1 bg-red-600 hover:bg-red-700 text-white rounded"
+                      onClick={() => openModalDelete(categoria)}
+                    >
+                      Eliminar
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
 
-        {/* Tabla de categorias */}
-        <div className="hidden md:block overflow-x-auto">
-          <table className="min-w-full bg-gray-900 text-gray-200">
-            <thead className="border border-gray-700 bg-gray-800 text-white">
-              <tr>
-                <th className="px-4 py-2 text-left">Imagen</th>
-                <th className="px-4 py-2 text-left">Título</th>
-                <th className="px-4 py-2 text-left">Descripción</th>
-                <th className="px-4 py-2 text-center">Acciones</th>
-              </tr>
-            </thead>
+          {/* Tabla de categorias */}
+          <div className="hidden md:block overflow-x-auto">
+            <table className="min-w-full bg-gray-900 text-gray-200">
+              <thead className="border border-gray-700 bg-gray-800 text-white">
+                <tr>
+                  <th className="px-4 py-2 text-left">Imagen</th>
+                  <th className="px-4 py-2 text-left">Título</th>
+                  <th className="px-4 py-2 text-left">Descripción</th>
+                  <th className="px-4 py-2 text-center">Acciones</th>
+                </tr>
+              </thead>
 
-            <tbody>
-              {categoriasFiltrado.map((categoria) => (
-                <FilaCategorias 
-                    key={categoria.id} 
-                    categoria={categoria} 
-                    openModalEdit={openModalEdit} 
-                    openModalDelete={openModalDelete}/>
-              ))}
-            </tbody>
-          </table>
+              <tbody>
+                {categoriasFiltrado.map((categoria) => (
+                  <FilaCategorias
+                    key={categoria.id}
+                    categoria={categoria}
+                    openModalEdit={openModalEdit}
+                    openModalDelete={openModalDelete}
+                  />
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
-      </div>
 
         {/* Modal */}
-        {showModal && ( 
-          <ModalCategorias form={form} handleChange={handleChange} handleSubmit={handleSubmit} closeModal={closeModal} editing={editing}/>
+        {showModal && (
+          <ModalCategorias
+            form={form}
+            handleChange={handleChange}
+            handleSubmit={handleSubmit}
+            closeModal={closeModal}
+            editing={editing}
+          />
         )}
-         {/* Modal de borrar*/}
+        {/* Modal de borrar*/}
         {showModalDelete && (
           <ModalDeleteCategorias
             closeModalDelete={closeModalDelete}
             categoriaABorrar={categoriaABorrar}
-            handleDelete ={handleDelete }
+            handleDelete={handleDelete}
           />
         )}
-    </section>
+      </section>
     </div>
   );
 }
