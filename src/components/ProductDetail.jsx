@@ -45,7 +45,7 @@ export default function ProductDetail() {
 
       {/* No esta cargando pero hay producto*/}
       {!loading && producto && (
-        <div className="p-8 mt-24 md:mt-16 mb-6 bg-gray-800 text-white">
+        <div className="p-8 mt-32 md:mt-42 mb-6 md:mb-2 bg-gray-800 text-white">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col md:flex-row gap-10 justify-items-center">
               {/* Imagen */}

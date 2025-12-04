@@ -2,14 +2,15 @@ import ProductDetail from '../components/ProductDetail';
 import Navbar from '../components/Navbar';
 import Footer from '../components/genericos/Footer';
 
-function ProductPage(){
-
+function ProductPage() {
     return (
-             <div className="w-full min-h-screen bg-gray-800">
-                  <Navbar/>
-                  <ProductDetail/>
-                  <Footer className="fixed bottom-0 left-0"/>
-            </div>
+        <div className="flex flex-col min-h-screen w-full bg-gray-800">
+            <Navbar />
+            <main className="flex-1">
+                <ProductDetail />
+            </main>
+            <Footer />
+        </div>
     );
 }
 export default ProductPage;
