@@ -1,45 +1,62 @@
 import { useParams } from "react-router-dom";
-import { useFetchCategoria } from "../../utils/useFetchCategoria";
 import { useFetchProductos } from "../../utils/useFetchProductos";
 import Ficha from "../Ficha";
-import { useEffect, useState } from "react";
+import Navbar from "../Navbar";
+import Footer from "../genericos/Footer";
+import Loader from "../genericos/Loader";
+
+const API_URL = import.meta.env.VITE_API_URL;
 
 function CategoriaFilter() {
   const id = useParams().id;
   const { data: productos, loading, error } = useFetchProductos();
 
-  const [searchInput, setSearchInput] = useState("");
-
-  if (loading) return <div>Cargando productos...</div>;
-  if (error) return <div>Error: {error}</div>;
-  if (!productos || productos === "")
-    return <div>No hay productos en esta categoría</div>;
-
+  
+  //Filtrado por categoria
   const productosFiltrados = productos
     .filter((p) => String(p.category_id) === String(id))
-    .filter((p) => p.title.toLowerCase().includes(searchInput.toLowerCase()));
+
 
   return (
-    <div className="p-4 bg-gray-900 min-h-screen w-full">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {productosFiltrados.length > 0 ? (
-          productosFiltrados.map((producto, i) => (
-            <Ficha
-              key={i}
-              id={producto.id}
-              urlImagen={`http://161.35.104.211:8000${producto.pictures}`}
-              titulo={producto.title}
-              description={producto.description}
-              price={producto.price}
-            />
-          ))
-        ) : (
-          <div className="col-span-full text-gray-400 py-10">
-            No hay productos con ese nombre.
+    <>
+    <div className="pt-24 md:pt-12 px-4 bg-gray-800 min-h-screen w-full">
+      <Navbar />
+
+      {/* Si hay un error */}
+      { error && (<div>Error: {error}</div>)
+      }
+       {/* Cargando */}
+        {loading && (
+          <div className="animate-pulse">
+               <Loader/>
           </div>
         )}
+        {/* No esta cargando pero no hay productos*/}
+        {!loading && (productosFiltrados.length === 0) && (
+          <div className="w-full flex justify-center items-center text-gray-400 py-10 text-lg">
+            No hay productos en esta categoría
+          </div>
+        )}
+
+         <div className="mt-8 -mx-20px grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 w-full justify-items-center">
+
+            {/* No esta cargando y hay productos */}
+            {!loading && productos && productos.length > 0 && (
+                  productosFiltrados.map((producto, i) => (
+                    <Ficha
+                      key={i}
+                      id={producto.id}
+                      pictures={`${API_URL}${producto.pictures[0]}`}
+                      titletitle={producto.title}
+                      description={producto.description}
+                      price={producto.price}
+                    />
+                  ))
+             )}
+          </div>
       </div>
-    </div>
+      <Footer />
+    </>
   );
 }
 

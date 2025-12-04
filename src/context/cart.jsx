@@ -6,32 +6,54 @@ export const CartContext = createContext()
 export const CartProvider = ({ children }) => {
     const [cartItems, setCartItems] = useState(localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems')) : [])
 
+    //agregar a carrito
     const addToCart = (item) => {
-    const isItemInCart = cartItems.find((cartItem) => cartItem.id === item.id); // check if the item is already in the cart
+    const isItemInCart = cartItems.find((cartItem) => cartItem.id === item.id);
 
     if (isItemInCart) {
     setCartItems(
-        cartItems.map((cartItem) => // if the item is already in the cart, increase the quantity of the item
+      //si esta en el carrito, se agrega 1 a su cantidad
+        cartItems.map((cartItem) => 
         cartItem.id === item.id
             ? { ...cartItem, quantity: cartItem.quantity + 1 }
-            : cartItem // otherwise, return the cart item
+            : cartItem 
         )
     );
     } else {
-    setCartItems([...cartItems, { ...item, quantity: 1 }]); // if the item is not in the cart, add the item to the cart
+    //si no existe se agrega con cantidad 1
+    setCartItems([...cartItems, { ...item, quantity: 1 }]);
     }
     };
+    //agregar multiple, se usa en detalle de producto, para agregar mas de uno si es necesario
+    const addMultiple = (item, quantity) => {
+      const isItemInCart = cartItems.find(p => p.id === item.id);
+
+      if (isItemInCart) {
+        // si ya existe solo incremento su cantidad una vez
+        setCartItems(cartItems.map(p =>
+          p.id === item.id
+            ? { ...p, quantity: p.quantity + quantity }
+            : p
+        ));
+      } else {
+        // si no existe lo agrego con la cantidad pedida
+        setCartItems([...cartItems, { ...item, quantity }]);
+      }
+    };
+
 
     const removeFromCart = (item) => {
     const isItemInCart = cartItems.find((cartItem) => cartItem.id === item.id);
 
     if (isItemInCart.quantity === 1) {
-        setCartItems(cartItems.filter((cartItem) => cartItem.id !== item.id)); // if the quantity of the item is 1, remove the item from the cart
+        //si queda uno solo, lo borra
+        setCartItems(cartItems.filter((cartItem) => cartItem.id !== item.id));
     } else {
         setCartItems(
         cartItems.map((cartItem) =>
             cartItem.id === item.id
-            ? { ...cartItem, quantity: cartItem.quantity - 1 } // if the quantity of the item is greater than 1, decrease the quantity of the item
+        //si hay mas de un mismo item, le resta 1
+            ? { ...cartItem, quantity: cartItem.quantity - 1 }
             : cartItem
         )
         );
@@ -41,17 +63,18 @@ export const CartProvider = ({ children }) => {
     const deleteFromCart = (item) =>{
         setCartItems(cartItems.filter((cartItem) => cartItem.id !== item.id));
     }
+     // borra todos los productos
     const clearCart = () => {
-    setCartItems([]); // set the cart items to an empty array
+    setCartItems([]);
     };
 
-
+    //calcular precio total
     const getCartTotal = () => {
-    return cartItems.reduce((total, item) => total + item.price * item.quantity, 0); // calculate the total price of the items in the cart
+    return cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
     };
-
+    //calcular cantidad total de items
     const getCartQuantity = () => {
-    return cartItems.reduce((total, item) => total + item.quantity, 0); // calcular cantidad de items en cart
+    return cartItems.reduce((total, item) => total + item.quantity, 0);
     };
 
 
@@ -75,6 +98,7 @@ return (
   <CartContext.Provider
     value={{
       cartItems,
+      addMultiple,
       addToCart,
       removeFromCart,
       clearCart,

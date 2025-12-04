@@ -1,14 +1,14 @@
 import { Catalogo } from "../components/Catalogo";
-import Footer from "../components/genericos/Footer";
+
+const API_URL = import.meta.env.VITE_API_URL;
 
 function Productos() {
   return (
     <div className="w-full min-h-screen bg-gray-800">
       <Catalogo
-        apiUrl={"http://161.35.104.211:8000/products/"}
+        apiUrl={`${API_URL}/products/`}
         apiToken={"elias"}
       ></Catalogo>
-      <Footer />
     </div>
   );
 }

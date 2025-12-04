@@ -1,14 +1,18 @@
 import { Catalogo } from "../components/Catalogo";
 import Footer from "../components/genericos/Footer";
-// Agregar import navbar.
+import Navbar from "../components/Navbar";
 
+const API_URL = import.meta.env.VITE_API_URL;
+const API_TOKEN = import.meta.env.VITE_BEARER_TOKEN;
+ `Bearer ${API_TOKEN}`
 function Home() {
   return (
     <div className="flex flex-col min-h-screen bg-[#1b1d1f]">
-      <div className="w-full min-h-screen bg-gray-800 flex-grow">
+      <div className="w-full min-h-screen bg-gray-800 grow">
+        <Navbar />
         <Catalogo
-          apiUrl={"http://161.35.104.211:8000/products/"}
-          apiToken={"elias"}
+          apiUrl={`${API_URL}/products/`}
+          apiToken={API_TOKEN}
         ></Catalogo>
       </div>
       <Footer />

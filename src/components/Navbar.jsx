@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { CartContext } from "../context/cart";
 import { useContext } from "react";
-
+import { useFetchProductos } from "../utils/useFetchProductos";
+import ResultadosBusqueda from "./ResultadosBusqueda";
 import {
   Disclosure,
   DisclosureButton,
@@ -19,20 +20,40 @@ import {
 import { SearchBar } from "./SearchBar";
 import CartModal from "./cartModal";
 import { useFetchCategoria } from "../utils/useFetchCategoria";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 
 /*cambiar por links definitivos a cada seccion cuando esten creadas las paginas */
 const navigation = [
   { name: "Inicio", href: "/" },
   { name: "Productos", href: "/productos" },
-  { name: "Admin", href: "/Admin" },
+  { name: "Admin", href: "/admin" },
 ];
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function Navbar({ value, onChange }) {
+
+export default function Navbar() {
+  //Para realizar logout
+  const { logout,logged } = useContext(AuthContext);
+  //estado para el modal
   const [open, setOpen] = useState(false);
+  //inicializar el navigate
+  const navigate = useNavigate();
+
+  const activarLogout = () => {
+    logout()
+    navigate("/")
+  };
+
+  //Si esta logueado, filtro admin asi no se mapea en la navBar
+  const navigationLogueado = navigation.filter(item => {
+    if (item.name === "Admin" && !logged) return false;
+    return true;
+  });
+
   const { getCartQuantity } = useContext(CartContext);
 
   const {
@@ -40,16 +61,37 @@ export default function Navbar({ value, onChange }) {
     loading: catLoading,
     error: catError,
   } = useFetchCategoria();
-  // categorias vuelve como undefined
-  const categoriasNombre = Array.isArray(categorias)
-    ? categorias.map((cat) => cat.title)
-    : [];
+
+
+  
+
+    //usado en nav Bar y barra de busqueda
+    const [searchInput, setSearchInput] = useState("");
+
+    // Fetch de productos
+    const {
+      data: products,
+      loading: loadingProducts,
+      error: errorProducts,
+    } = useFetchProductos();
+  
+
+    
+
+    // filtrado de productos para sugerencias
+    const searchResults = searchInput.length > 0
+      ? products.filter(p => 
+          p.title.toLowerCase().includes(searchInput.toLowerCase())
+        )
+      : [];
+
+
 
   return (
     <>
       <Disclosure
         as="nav"
-        className="fixed top-0 left-0 right-0 z-50 bg-[#1b1d1f] text-white shadow-md border-b border-gray-700 overflow-visible"
+        className="mb-2 md:mb-0 fixed top-0 left-0 right-0 z-50 bg-[#1b1d1f] text-white shadow-md border-b border-gray-700 overflow-visible"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex h-16 items-center justify-between">
@@ -80,7 +122,7 @@ export default function Navbar({ value, onChange }) {
               {/* Links */}
               <div className="hidden sm:ml-6 sm:block">
                 <div className="flex space-x-4">
-                  {navigation.map((item) => (
+                  {navigationLogueado.map((item) => (
                     <Link
                       key={item.name}
                       to={item.href}
@@ -136,7 +178,7 @@ export default function Navbar({ value, onChange }) {
             <div className="flex items-center gap-3 relative overflow-visible">
               {/*Barra de busqueda, se muestra solo en modo desktop*/}
               <div className="hidden md:block">
-                <SearchBar value={value} onChange={onChange} />
+                <SearchBar value={searchInput} onChange={setSearchInput} />
               </div>
 
               {/* Carrito */}
@@ -154,11 +196,9 @@ export default function Navbar({ value, onChange }) {
               <Menu as="div" className="relative">
                 <div className="cursor-pointer flex items-center justify-center rounded-full hover:ring-2 hover:ring-white transition">
                   <Menu.Button as="div">
-                    <img
-                      src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=facearea&w=256&h=256&q=80"
-                      alt="User avatar"
-                      className="h-8 w-8 rounded-full border border-gray-600"
-                    />
+                      <div className="relative w-10 h-10 overflow-hidden bg-neutral-secondary-medium rounded-full">
+                          <svg className="absolute w-12 h-12 text-body-subtle -left-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd"></path></svg>
+                      </div>
                   </Menu.Button>
                 </div>
 
@@ -167,26 +207,23 @@ export default function Navbar({ value, onChange }) {
                   transition
                   className="absolute right-0 z-50 mt-2 w-48 origin-top-right rounded-md bg-[#2a2d31] py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                 >
-                  <MenuItem
-                    as={Link}
-                    to="/profile"
-                    className="block px-4 py-2 text-sm text-gray-200 data-focus:bg-gray-700"
-                  >
-                    Tu perfil
-                  </MenuItem>
-                  <MenuItem
-                    as={Link}
-                    to="/settings"
-                    className="block px-4 py-2 text-sm text-white data-focus:bg-gray-700"
-                  >
-                    Configuración
-                  </MenuItem>
-                  <MenuItem
-                    as={Link}
-                    className="block px-4 py-2 text-sm text-gray-200 data-focus:bg-gray-700"
-                  >
-                    Cerrar sesión
-                  </MenuItem>
+                  {logged ? (
+                      <MenuItem
+                        as="button"
+                        onClick={activarLogout}
+                        className="block w-full text-left px-4 py-2 text-sm text-gray-200 data-focus:bg-gray-700"
+                      >
+                        Cerrar sesión
+                      </MenuItem>
+                    ) : (
+                      <MenuItem
+                        as={Link}
+                        to="/login"
+                        className="block w-full text-left px-4 py-2 text-sm text-gray-200 data-focus:bg-gray-700"
+                      >
+                        Iniciar sesión
+                      </MenuItem>
+                      )}
                 </MenuItems>
               </Menu>
             </div>
@@ -196,7 +233,7 @@ export default function Navbar({ value, onChange }) {
         {/* Menú móvil */}
         <DisclosurePanel className="sm:hidden border-t border-gray-700">
           <div className="space-y-1 px-2 pt-2 pb-3 bg-[#1b1d1f]">
-            {navigation.map((item) => (
+            {navigationLogueado.map((item) => (
               <DisclosureButton
                 key={item.name}
                 as={Link}
@@ -255,7 +292,16 @@ export default function Navbar({ value, onChange }) {
             )}
           </Disclosure>
         </DisclosurePanel>
+        {/* SearchBar móvil */}
+        <div className="block md:hidden px-4 pb-3">
+          <SearchBar value={searchInput} onChange={setSearchInput} />
+        </div>
       </Disclosure>
+      {searchInput && (
+            <ResultadosBusqueda 
+                searchResults={searchResults}
+            />
+      )}
 
       <CartModal open={open} setOpen={setOpen} />
     </>
