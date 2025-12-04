@@ -29,6 +29,7 @@ export const SearchBar = ({ value, onChange }) => {
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
+              onClick={()=>onChange("")}
             >
               <path
                 strokeLinecap="round"
@@ -46,7 +47,7 @@ export const SearchBar = ({ value, onChange }) => {
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
-              onClick={()=>onChange("")}
+              
             >
               <path
                 strokeLinecap="round"
