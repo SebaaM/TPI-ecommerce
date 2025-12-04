@@ -1,6 +1,10 @@
 import { Link } from "react-router-dom";
 
-export default function TablaFila({ juego, onDelete }) {
+export default function TablaFila({ juego, onDelete ,recargarProds }) {
+const handleDelete = () => {
+  onDelete(juego.id)
+  recargarProds();
+}
   return (
     <tr className="border-t border-gray-700">
       <td className="text-sm md:text-base px-4 py-2">{juego.title}</td>
@@ -25,7 +29,7 @@ export default function TablaFila({ juego, onDelete }) {
           </button>
           <button
             className="w-18 md:w-24 px-3 py-1 bg-red-600 hover:bg-red-700 text-white rounded"
-            onClick={() => onDelete(juego.id)}
+            onClick={() => handleDelete}
           >
             Eliminar
           </button>

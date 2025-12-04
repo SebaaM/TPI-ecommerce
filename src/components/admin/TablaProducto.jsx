@@ -1,33 +1,96 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import TablaFila from "./TablaFila";
 import { useFetch } from "../../utils/useFetch";
+import { SearchBar } from "../SearchBar";
+import { Link } from "react-router-dom";
+
+const API_URL = import.meta.env.VITE_API_URL;
+
 
 export default function TablaProducto({ onDelete }) {
+
+  //estado de barra de busqueda de categorias en la tabla
+  const [searchProd, setSearchProd] = useState("");
+
+   //fetch de tags
+  const [productos, setProds] = useState([]);
+
+
   const [page, setPage] = useState(0);
   const limit = 10;
 
   const skip = page * limit;
 
-  const url = `http://161.35.104.211:8000/products/?skip=${skip}&limit=${limit}`;
-  const options = {
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-      Authorization: "Bearer elias",
-    },
-    method: "GET",
-  };
+  const fetchProds = async () => {
+  try {
+    const res = await fetch(`${API_URL}/products/`, {
+        headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: "Bearer elias",
+        },
+        method: "GET",
+    });
+    const data = await res.json();
+    setProds(data);
+  } catch (error) {
+    console.error("Error cargando categorías:", error);
+  }
+};
+//Filtrado por producto usando el valor de la barra de busqueda
+const productosFiltrados =
+  productos?.filter((juego) =>
+    juego.title.toLowerCase().includes(searchProd.toLowerCase())
+  ) || [];
 
-  const { data: productos, loading, error } = useFetch(url, options);
+//cuando se monta
+useEffect(() => {
+  fetchProds();
+}, []);
 
+const paginados = productosFiltrados.slice(skip, skip + limit);
+
+//volver a pagina 0 si se busca algo
+useEffect(() => {
+  setPage(0);
+}, [searchProd]);
+
+//para poder actualizar listado cuando se modifique la lista
+const recargarProds = () => {
+  fetchProds();
+};
+  
+  
+if (!productos) {
+  return <p className="text-white p-4">No se encontraron productos</p>;
+}
+    
+ 
   return (
-    <div className="overflow-x-auto mt-2 py-4 ">
-      {loading && <p className="text-gray-400">Cargando productos...</p>}
-      {error && <p className="text-red-500">Error: {error}</p>}
+    <>
+    <div className="mt-10">
+                <h1 className=" md:hidden text-2xl mb-2 font-bold flex justify-center">
+                  Lista Productos
+                </h1>
+                <div className=" flex justify-between text-white">
+                  {/* Busqueda en tabla de productos */}
 
-      {!loading && !error && (
-        <>
-          <table className="min-w-full border border-gray-700 rounded-lg overflow-hidden ">
+                  <button className=" hidden md:block font-bold px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded shadow">
+                    <Link to="/admin/crearProducto">+ Agregar videojuego</Link>
+                  </button>
+                  <button className=" block md:hidden font-bold px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded shadow">
+                    <Link to="/admin/crearProducto">+Videojuego</Link>
+                  </button>
+                  <h1 className="hidden md:block text-2xl mb-2 font-bold">
+                    Lista Productos
+                  </h1>
+                  <SearchBar value={searchProd} onChange={setSearchProd} />
+                </div>   
+    </div>
+
+    <div className="overflow-x-auto mt-2 py-4 ">
+        <div className="md:min-h-[620px] md:flex md:flex-col md:justify-between">
+          <table className="min-w-full border border-gray-700 rounded-lg overflow-hidden">
             <thead className="bg-gray-800 text-white">
               <tr>
                 <th className="px-4 py-2 text-left">Nombre</th>
@@ -40,8 +103,8 @@ export default function TablaProducto({ onDelete }) {
               </tr>
             </thead>
             <tbody className="bg-gray-900 text-gray-200">
-              {productos.map((juego) => (
-                <TablaFila key={juego.id} juego={juego} onDelete={onDelete} />
+              {paginados.map((juego) => (
+                <TablaFila key={juego.id} juego={juego} onDelete={onDelete} recargarProds={recargarProds}/>
               ))}
             </tbody>
           </table>
@@ -63,8 +126,8 @@ export default function TablaProducto({ onDelete }) {
               Siguiente
             </button>
           </div>
-        </>
-      )}
+        </div>
     </div>
+    </>
   );
 }

@@ -1,11 +1,9 @@
 import { useState, useEffect } from "react";
 import { useFetchProductos } from "../utils/useFetchProductos";
-import { SearchBar } from "../components/SearchBar";
 import TablaProducto from "../components/admin/TablaProducto";
 import NavBar from "../components/Navbar";
 import Footer from "../components/genericos/Footer";
 import TablaCategorias from "../components/admin/TablaCategorias";
-import { Link } from "react-router-dom";
 import LoaderAzul from "../components/genericos/LoaderAzul";
 import TablaTags from "../components/admin/TablaTags";
 import BotonMultiple from "../components/BotonMultiple";
@@ -63,11 +61,6 @@ export default function AdminProductos() {
     return <p className="text-white p-4">No se encontraron productos</p>;
   }
 
-  let juegosFiltrado =
-    productosState?.filter((juego) =>
-      juego.title.toLowerCase().includes(search.toLowerCase())
-    ) || [];
-
   // Manejo de delete
   const handleDelete = async (id) => {
     const res = await fetch(`${API_URL}/products/${id}`, {
@@ -112,29 +105,7 @@ export default function AdminProductos() {
             </div>
             {/* Listado de productos */}
             {vista === "productos" && (
-              <div className="mt-10">
-                <h1 className=" md:hidden text-2xl mb-2 font-bold flex justify-center">
-                  Lista Productos
-                </h1>
-                <div className=" flex justify-between text-white">
-                  {/* Busqueda en tabla de productos */}
-
-                  <button className=" hidden md:block font-bold px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded shadow">
-                    <Link to="/admin/crearProducto">+ Agregar videojuego</Link>
-                  </button>
-                  <button className=" block md:hidden font-bold px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded shadow">
-                    <Link to="/admin/crearProducto">+Videojuego</Link>
-                  </button>
-                  <h1 className="hidden md:block text-2xl mb-2 font-bold">
-                    Lista Productos
-                  </h1>
-                  <SearchBar value={search} onChange={setSearch} />
-                </div>
-                <TablaProducto
-                  productos={juegosFiltrado}
-                  onDelete={handleDelete}
-                />
-              </div>
+                <TablaProducto onDelete={handleDelete}/>
             )}
             {/* Listado de categorias */}
             {vista === "categorias" && (
