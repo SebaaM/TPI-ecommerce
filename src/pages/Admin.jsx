@@ -62,7 +62,7 @@ export default function AdminProductos() {
   }
 
   // Manejo de delete
-  const handleDelete = async (id) => {
+  const handleDeleteProd = async (id) => {
     const res = await fetch(`${API_URL}/products/${id}`, {
       method: "DELETE",
       headers: {
@@ -105,7 +105,7 @@ export default function AdminProductos() {
             </div>
             {/* Listado de productos */}
             {vista === "productos" && (
-                <TablaProducto onDelete={handleDelete}/>
+                <TablaProducto onDelete={handleDeleteProd} productos={productosState}/>
             )}
             {/* Listado de categorias */}
             {vista === "categorias" && (

@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
 
-export default function TablaFila({ juego, onDelete ,recargarProds }) {
-const handleDelete = () => {
-  onDelete(juego.id)
-  recargarProds();
-}
+export default function TablaFila({ juego, openModalDelete }) {
+
+
+
   return (
+    <>
     <tr className="border-t border-gray-700">
       <td className="text-sm md:text-base px-4 py-2">{juego.title}</td>
       <td className="px-2 py-2">${juego.price}</td>
@@ -29,12 +29,14 @@ const handleDelete = () => {
           </button>
           <button
             className="w-18 md:w-24 px-3 py-1 bg-red-600 hover:bg-red-700 text-white rounded"
-            onClick={() => handleDelete}
+            onClick={() => openModalDelete(juego)}
           >
             Eliminar
           </button>
         </div>
       </td>
     </tr>
+    </>
+    
   );
 }

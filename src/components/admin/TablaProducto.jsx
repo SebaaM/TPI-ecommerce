@@ -1,65 +1,48 @@
 import { useState,useEffect } from "react";
 import TablaFila from "./TablaFila";
-import { useFetch } from "../../utils/useFetch";
 import { SearchBar } from "../SearchBar";
 import { Link } from "react-router-dom";
+import { ModalDeleteProduct } from "../ModalDeleteProduct";
+export default function TablaProducto({  productos, onDelete }) {
 
-const API_URL = import.meta.env.VITE_API_URL;
-
-
-export default function TablaProducto({ onDelete }) {
+  const [productoABorrar, setProductoABorrar] = useState(null);
 
   //estado de barra de busqueda de categorias en la tabla
   const [searchProd, setSearchProd] = useState("");
-
-   //fetch de tags
-  const [productos, setProds] = useState([]);
-
-
   const [page, setPage] = useState(0);
   const limit = 10;
-
   const skip = page * limit;
 
-  const fetchProds = async () => {
-  try {
-    const res = await fetch(`${API_URL}/products/`, {
-        headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        Authorization: "Bearer elias",
-        },
-        method: "GET",
-    });
-    const data = await res.json();
-    setProds(data);
-  } catch (error) {
-    console.error("Error cargando categorías:", error);
+//Modal
+  //Mostrar modal de borrar
+const [showModalDelete, setShowModalDelete] = useState(false);
+  //Abrir Borrar:
+const openModalDelete = (producto) => {
+  setProductoABorrar(producto);
+  setShowModalDelete(true);
+};
+//Cerrar modal borrar
+  const closeModalDelete = () => {
+    setShowModalDelete(false);
+  };
+
+const confirm = () => {
+  if (productoABorrar) {
+    onDelete(productoABorrar.id);
+    closeModalDelete();
   }
 };
+//fin modal
+
+
 //Filtrado por producto usando el valor de la barra de busqueda
 const productosFiltrados =
   productos?.filter((juego) =>
     juego.title.toLowerCase().includes(searchProd.toLowerCase())
   ) || [];
 
-//cuando se monta
-useEffect(() => {
-  fetchProds();
-}, []);
 
 const paginados = productosFiltrados.slice(skip, skip + limit);
-
-//volver a pagina 0 si se busca algo
-useEffect(() => {
-  setPage(0);
-}, [searchProd]);
-
-//para poder actualizar listado cuando se modifique la lista
-const recargarProds = () => {
-  fetchProds();
-};
-  
   
 if (!productos) {
   return <p className="text-white p-4">No se encontraron productos</p>;
@@ -75,12 +58,16 @@ if (!productos) {
                 <div className=" flex justify-between text-white">
                   {/* Busqueda en tabla de productos */}
 
-                  <button className=" hidden md:block font-bold px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded shadow">
-                    <Link to="/admin/crearProducto">+ Agregar videojuego</Link>
-                  </button>
-                  <button className=" block md:hidden font-bold px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded shadow">
-                    <Link to="/admin/crearProducto">+Videojuego</Link>
-                  </button>
+                  <Link to="/admin/crearProducto">
+                    <button className=" hidden md:block font-bold px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded shadow">
+                    + Agregar videojuego
+                    </button>
+                  </Link>
+                  <Link to="/admin/crearProducto">
+                    <button className=" block md:hidden font-bold px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded shadow">
+                      +Videojuego
+                    </button>
+                  </Link>
                   <h1 className="hidden md:block text-2xl mb-2 font-bold">
                     Lista Productos
                   </h1>
@@ -104,7 +91,7 @@ if (!productos) {
             </thead>
             <tbody className="bg-gray-900 text-gray-200">
               {paginados.map((juego) => (
-                <TablaFila key={juego.id} juego={juego} onDelete={onDelete} recargarProds={recargarProds}/>
+                <TablaFila key={juego.id} juego={juego}  openModalDelete={openModalDelete} />
               ))}
             </tbody>
           </table>
@@ -128,6 +115,14 @@ if (!productos) {
           </div>
         </div>
     </div>
+    {/* Modal de borrar*/}
+    {showModalDelete && (
+      <ModalDeleteProduct
+        closeModalDelete={closeModalDelete}
+        productoABorrar={productoABorrar}
+        handleDelete={confirm}
+      />
+    )}
     </>
   );
 }
