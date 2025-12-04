@@ -13,10 +13,14 @@ Proyecto de e‑commerce creado con React + Vite. Implementa un catálogo de pro
 
 1. Clonar el repositorio.
 2. Copiar/crear archivo de variables de entorno:
-   - Crear un archivo `.env` en la raíz con:
-     ```
-     VITE_API_URL=http://161.35.104.211:8000
-     ```
+
+- Crear un archivo `.env` en la raíz con:
+  ```
+  VITE_API_URL=http://161.35.104.211:8000
+  VITE_BEARER_TOKEN=elias
+  ```
+- o renombrar archivo `.env.example` a `.env`
+
 3. Instalar dependencias:
    ```
    npm install
@@ -51,6 +55,7 @@ Las dependencias se encuentran en [package.json](package.json).
 ## Variables de entorno
 
 - VITE_API_URL — URL base de la API externa.
+- VITE_BEARER_TOKEN — Token de autorización.
 
 ## Estructura y puntos de interés
 
@@ -65,6 +70,7 @@ Las dependencias se encuentran en [package.json](package.json).
 ## Notas
 
 - El token de autorización se injecta actualmente en llamadas fetch como `"Bearer elias"`; ajustar según el backend.
+- Es necesario utilizar el token 'elias' para respetar el contexto de la web.
 
 ## Contacto
 
