@@ -9,6 +9,12 @@ export default function TablaProducto({  productos, onDelete }) {
 
   //estado de barra de busqueda de categorias en la tabla
   const [searchProd, setSearchProd] = useState("");
+
+  // para actualizar al cambiar el filtro y volver a la primera pagina
+  useEffect(() => {
+    setPage(0);
+  }, [searchProd]);
+
   const [page, setPage] = useState(0);
   const limit = 10;
   const skip = page * limit;
@@ -43,7 +49,7 @@ const productosFiltrados =
 
 
 const paginados = productosFiltrados.slice(skip, skip + limit);
-  
+
 if (!productos) {
   return <p className="text-white p-4">No se encontraron productos</p>;
 }
