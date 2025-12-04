@@ -5,6 +5,7 @@ import { ModalDeleteCategorias } from "../ModalDeleteCategorias";
 import { SearchBar } from "../SearchBar";
 
 const API_URL = import.meta.env.VITE_API_URL;
+const API_TOKEN = import.meta.env.VITE_BEARER_TOKEN;
 
 export default function TablaCategorias({ searchCat, setSearchCat }) {
   //fetch de categorias
@@ -15,7 +16,7 @@ export default function TablaCategorias({ searchCat, setSearchCat }) {
       const res = await fetch(`${API_URL}/categories/`, {
         headers: {
           accept: "application/json",
-          Authorization: "Bearer elias",
+          Authorization: `Bearer ${API_TOKEN}`,
         },
       });
       const data = await res.json();
@@ -146,7 +147,7 @@ export default function TablaCategorias({ searchCat, setSearchCat }) {
           headers: {
             "Content-Type": "application/json",
             accept: "application/json",
-            Authorization: "Bearer elias",
+            Authorization: `Bearer ${API_TOKEN}`,
           },
           body: JSON.stringify({
             title: form.title,
@@ -163,7 +164,7 @@ export default function TablaCategorias({ searchCat, setSearchCat }) {
           headers: {
             "Content-Type": "application/json",
             accept: "application/json",
-            Authorization: "Bearer elias",
+            Authorization: `Bearer ${API_TOKEN}`,
           },
           body: JSON.stringify({
             title: form.title,
@@ -184,7 +185,7 @@ export default function TablaCategorias({ searchCat, setSearchCat }) {
         await fetch(`${API_URL}/categories/${categoryId}/picture`, {
           method: "POST",
           headers: {
-            Authorization: "Bearer elias",
+            Authorization: `Bearer ${API_TOKEN}`,
           },
           body: fd,
         });
@@ -203,7 +204,7 @@ export default function TablaCategorias({ searchCat, setSearchCat }) {
         method: "DELETE",
         headers: {
           accept: "application/json",
-          Authorization: "Bearer elias",
+          Authorization: `Bearer ${API_TOKEN}`,
         },
       });
       closeModalDelete();

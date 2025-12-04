@@ -9,6 +9,7 @@ import TablaTags from "../components/admin/TablaTags";
 import BotonMultiple from "../components/BotonMultiple";
 
 const API_URL = import.meta.env.VITE_API_URL;
+const API_TOKEN = import.meta.env.VITE_BEARER_TOKEN;
 
 export default function AdminProductos() {
   //estado de barra de busqueda de categorias en la tabla
@@ -66,7 +67,7 @@ export default function AdminProductos() {
     const res = await fetch(`${API_URL}/products/${id}`, {
       method: "DELETE",
       headers: {
-        Authorization: "Bearer elias",
+        Authorization: `Bearer ${API_TOKEN}`,
       },
     });
     if (res.ok) {

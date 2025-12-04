@@ -2,6 +2,7 @@
 import { useFetch } from "./useFetch";
 
 const API_URL = import.meta.env.VITE_API_URL;
+const API_TOKEN = import.meta.env.VITE_BEARER_TOKEN;
 
 export function useFetchTags(id) {
   const url = `${API_URL}/tags/` + (id ? `${id}/` : "");
@@ -9,7 +10,7 @@ export function useFetchTags(id) {
     method: "GET",
     headers: {
       accept: "application/json",
-      Authorization: "Bearer elias",
+      Authorization: `Bearer ${API_TOKEN}`,
     },
   };
 

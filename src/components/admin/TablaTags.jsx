@@ -4,7 +4,8 @@ import { SearchBar } from "../SearchBar";
 import { ModalTags } from "../ModalTags";
 
 const API_URL = import.meta.env.VITE_API_URL;
-
+const API_TOKEN = import.meta.env.VITE_BEARER_TOKEN;
+ 
 export default function TablaTags({ searchTag, setSearchTag }) {
   //fetch de tags
   const [tags, setTags] = useState([]);
@@ -14,7 +15,7 @@ export default function TablaTags({ searchTag, setSearchTag }) {
       const res = await fetch(`${API_URL}/tags/`, {
         headers: {
           accept: "application/json",
-          Authorization: "Bearer elias",
+          Authorization: `Bearer ${API_TOKEN}`,
         },
       });
       const data = await res.json();
@@ -114,7 +115,7 @@ export default function TablaTags({ searchTag, setSearchTag }) {
           headers: {
             "Content-Type": "application/json",
             accept: "application/json",
-            Authorization: "Bearer elias",
+            Authorization: `Bearer ${API_TOKEN}`,
           },
           body: JSON.stringify({
             title: form.title,
@@ -130,7 +131,7 @@ export default function TablaTags({ searchTag, setSearchTag }) {
           headers: {
             "Content-Type": "application/json",
             accept: "application/json",
-            Authorization: "Bearer elias",
+            Authorization: `Bearer ${API_TOKEN}`,
           },
           body: JSON.stringify({
             title: form.title,
@@ -151,7 +152,7 @@ export default function TablaTags({ searchTag, setSearchTag }) {
         method: "DELETE",
         headers: {
           accept: "application/json",
-          Authorization: "Bearer elias",
+          Authorization: `Bearer ${API_TOKEN}`,
         },
       });
       closeModalDelete();

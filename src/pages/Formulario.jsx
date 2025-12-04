@@ -4,6 +4,7 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/genericos/Footer";
 
 const API_URL = import.meta.env.VITE_API_URL;
+const API_TOKEN = import.meta.env.VITE_BEARER_TOKEN;
 
 export default function PageFormulario() {
   const navigate = useNavigate();
@@ -29,7 +30,7 @@ export default function PageFormulario() {
         headers: {
           "Content-Type": "application/json",
           accept: "application/json",
-          Authorization: "Bearer elias",
+          Authorization:  `Bearer ${API_TOKEN}`,
         },
         body: JSON.stringify(body),
       });
@@ -63,7 +64,7 @@ export default function PageFormulario() {
     const res = await fetch(`${API_URL}/products/${productId}/pictures`, {
       method: "POST",
       headers: {
-        Authorization: "Bearer elias",
+        Authorization:  `Bearer ${API_TOKEN}`,
       },
       body: formData,
     });

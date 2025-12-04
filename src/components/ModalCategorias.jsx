@@ -34,7 +34,7 @@ export const ModalCategorias = ({form, handleChange, handleSubmit, closeModal, e
                   name="description"
                   value={form.description}
                   onChange={handleChange}
-                  className="w-full px-3 py-2 bg-gray-700 text-white rounded text-sm"
+                  className="w-full px-3 py-2 bg-gray-700 text-white rounded text-sm md:h20"
                 />
               </div>
 
@@ -48,7 +48,7 @@ export const ModalCategorias = ({form, handleChange, handleSubmit, closeModal, e
                               ? form.picturePreview
                               : `${API_URL}${form.picture}`
                           }
-                        className="w-14 h-14 object-cover rounded"
+                        className="w-14 h-14 sm:w-25 sm:h-25 md:w-40 md:h-40 object-cover rounded"
                         alt={form.title}
                     />
                       )}

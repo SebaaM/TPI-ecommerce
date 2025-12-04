@@ -118,6 +118,8 @@ export default function ProductoForm({ id, onEnvio }) {
               <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
                 USD
               </span>
+              {/* No deja introducir el simbolo - (menos) en el precio */}
+              {/* el otro chequeo obliga a que cualquier valor que se intente que sea negativo se vuelva 0 */}
               <input
                 type="number"
                 {...register("price", {
@@ -126,6 +128,10 @@ export default function ProductoForm({ id, onEnvio }) {
                   min: 0,
                 })}
                 placeholder="Precio..."
+                onKeyDown={(e) => e.key === "-" && e.preventDefault()}
+                onInput={(e) => {
+                    if (e.target.value < 0) e.target.value = 0;
+                  }}
                 className="w-full pl-12 px-4 py-2 rounded-md bg-gray-800 border border-gray-700 focus:ring-2 focus:ring-indigo-500"
               />
             </div>
