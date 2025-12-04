@@ -53,7 +53,9 @@ const paginados = productosFiltrados.slice(skip, skip + limit);
 if (!productos) {
   return <p className="text-white p-4">No se encontraron productos</p>;
 }
-    
+//Limite para paginacion segun cantidad de productos
+const totalPages = Math.ceil(productosFiltrados.length / limit);
+
  
   return (
     <>
@@ -114,7 +116,7 @@ if (!productos) {
             <button
               className="px-4 py-2 text-white rounded disabled:opacity-50 bg-purple-600 hover:bg-purple-700"
               onClick={() => setPage((prev) => prev + 1)}
-              disabled={productos.length < limit} // Deshabilitar si no hay más productos
+              disabled={page + 1 >= totalPages} // Deshabilitar si no hay más productos
             >
               Siguiente
             </button>
