@@ -11,8 +11,8 @@ import ProductoLanding from "./productoLanding";
 
 export default function Carousel({ products }) {
   return (
-    <div className="mb-12">
-      <h2 className="text-2xl font-bold text-white mb-4">Ofertas destacadas</h2>
+    <div className="">
+      <h2 className="text-xl font-bold text-green-300">Ofertas destacadas</h2>
       <Swiper
         effect={"coverflow"}
         grabCursor={true}

@@ -12,21 +12,21 @@ export default function ProductoLanding({
   tags,
 }) {
   return (
-    <div className="flex justify-center">
+    <div className="flex justify-center mx-2">
       <Link to={`/producto/${id}`} key={id}>
         <div
           className="
         block bg-gray-800 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition
-        max-h-96 sm:max-h-300
+        max-h-150 md:max-h-110
       "
         >
           <img
             src={API_URL + pictures[0]}
             alt={title}
-            className="p-4 w-full h-40 sm:h-80 sm:object-contain object-cover"
+            className=" w-full h-70 md:h-70 sm:object-contain object-cover p-2  "
           />
-          <div className="p-4">
-            <h3 className="text-lg sm:text-xl font-semibold text-white mb-2">
+          <div className="p-2">
+            <h3 className="text-lg sm:text-xl font-semibold text-white">
               {title}
             </h3>
             <p id="producto-precio" className="text-yellow-400 font-semibold">
